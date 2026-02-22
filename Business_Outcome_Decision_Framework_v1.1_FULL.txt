@@ -1,0 +1,244 @@
+
+BUSINESS OUTCOME DECISION FRAMEWORK
+Third-Party Landing Zone Initiative
+Exposure Governance Plane Program
+Version 1.1 – Full Narrative
+
+======================================================================
+1. Executive Context and Intent
+======================================================================
+
+The Third-Party Landing Zone initiative was framed around a specific and
+measurable business objective: establish a structured, pattern-based,
+self-service governed model for external-to-internal and internal-to-external
+application connectivity. This objective includes identity-aware mediation,
+decrypted inspection where required, transactional validation, and the ability
+to detect, isolate, and remediate anomalous behavior.
+
+This effort is not simply a modernization of connectivity. It is a structural
+response to unmanaged exposure risk in a heterogeneous enterprise estate.
+The decision before leadership is therefore not a product comparison.
+It is an operating-model alignment decision.
+
+All evaluated solution paradigms are viable.
+Each advances different dimensions of the intended outcome.
+Each compresses different risk domains.
+Each presumes a different level of governance maturity.
+
+======================================================================
+2. The Enterprise Condition
+======================================================================
+
+Large enterprises rarely operate clean, uniform application environments.
+Instead, they accumulate heterogeneous delivery models:
+
+- Multiple SFTP patterns
+- Mixed WAF and load-balancer stacks
+- SaaS and legacy coexistence
+- Internal-to-external bespoke data exchanges
+- Firewall-centric adjacency enforcement
+
+Over time, bespoke connectivity patterns multiply.
+Ownership becomes diffuse.
+Inspection becomes inconsistent.
+Containment capability becomes limited.
+
+Zero Trust principles provide an aspirational model — identity validation,
+least privilege, contextual authorization. However, most enterprise
+applications are not fully identity-native. They lack deep transaction-aware
+controls. As a result, session establishment control alone does not
+equate to transaction validation.
+
+The Landing Zone initiative therefore seeks to overlay sufficient structure,
+mediation, and governance to render exposure risk manageable without
+requiring wholesale application re-architecture.
+
+======================================================================
+3. RC1 as Proof of Feasibility
+======================================================================
+
+RC1 was constructed as a proof-of-feasibility reference architecture.
+It was not designed as a finished production solution.
+
+RC1 validated:
+
+- Technical feasibility of mediation and inspection placement
+- Horizontal gateway scaling and tenant isolation
+- Separation of duties between allocation and implementation
+- Source-of-Truth governance abstraction
+
+RC1 did not attempt to deliver:
+
+- Full self-service business portal integration
+- Enterprise-wide lifecycle workflow automation
+- IAM maturity uplift
+
+Its purpose was to ground vendor evaluation in implementable reality
+rather than conceptual alignment.
+
+======================================================================
+4. Definition of the Intended Outcome
+======================================================================
+
+The intended outcome includes:
+
+1. Pattern-based exposure (not bespoke one-offs)
+2. Structured onboarding with ownership binding
+3. Identity overlay where required for accountability
+4. Decrypted inspection for high-risk flows
+5. Transaction-level validation beyond session establishment
+6. Runtime containment capability
+7. Lifecycle and expiration enforcement
+8. Governance workflow integration
+
+This outcome definition forms the evaluation baseline.
+
+======================================================================
+5. Paradigm Analysis
+======================================================================
+
+A. Network Enforcement (Cisco-aligned)
+
+Advances:
+- Strong adjacency segmentation
+- Blast-radius reduction
+- Managed operational maturity
+
+Presumes:
+- Adjacency is the dominant risk
+- Transaction validation can remain external
+
+Residual Risk:
+- Limited deep protocol mediation
+- Containment requires additional layers
+
+Signal:
+Stabilization and incremental modernization.
+
+---------------------------------------------------------------------
+
+B. Identity Brokerage (Zscaler-aligned)
+
+Advances:
+- Strong session establishment control
+- Least-privilege enforcement
+- Centralized identity policy
+
+Presumes:
+- Session control sufficiently reduces risk
+- Applications tolerate brokered access
+
+Residual Risk:
+- Limited SSH/SFTP transaction inspection
+- Containment depth requires augmentation
+
+Signal:
+Identity-first modernization strategy.
+
+---------------------------------------------------------------------
+
+C. Edge Abstraction (Cloudflare-aligned)
+
+Advances:
+- Unified ingress governance
+- Strong HTTP/API inspection
+- Perimeter simplification
+
+Presumes:
+- Edge consolidation materially reduces complexity
+- Internal heterogeneity can remain behind edge
+
+Residual Risk:
+- Governance workflow still required
+- Platform dependency introduced
+
+Signal:
+Strategic architectural repositioning.
+
+---------------------------------------------------------------------
+
+D. Service Augmentation (F5 / EGP-aligned)
+
+Advances:
+- Protocol-aware mediation
+- Transaction-level inspection
+- Containment integration
+- Heterogeneous estate compatibility
+
+Presumes:
+- Governance workflows will be engineered
+- Engineering discipline is available
+
+Residual Risk:
+- Higher design responsibility
+- Operational ownership required
+
+Signal:
+Structural exposure correction strategy.
+
+======================================================================
+6. Cost and Execution Considerations
+======================================================================
+
+Initial hypotheses considered dual-vendor MVP development through a common
+portal abstraction. This approach introduces redundant integration effort,
+time delay, and duplicative implementation logic.
+
+Given that RC1 validated feasibility and defined governance abstractions,
+vendor evaluation grounded in that reference reduces time-to-decision
+and avoids non-transferable integration cost.
+
+The dominant cost driver across all options is governance workflow and
+integration engineering, not licensing.
+
+======================================================================
+7. Governance Dependencies
+======================================================================
+
+Regardless of vendor selection:
+
+- Governance processes must be defined
+- Ownership must be bound to each exposure
+- Identity lifecycle maturity must advance
+- Inspection policies must be explicit
+- Portal integration must be engineered
+
+No vendor eliminates governance responsibility.
+
+======================================================================
+8. Strategic Selection Guidance
+======================================================================
+
+If the objective is adjacency stabilization → Network Enforcement aligns best.
+
+If the objective is accelerated identity modernization → Identity Brokerage
+aligns best.
+
+If the objective is perimeter repositioning → Edge Abstraction aligns best.
+
+If the objective is structural mediation and containment across heterogeneous
+applications → Service Augmentation aligned to the Exposure Governance Plane
+advances that outcome most directly.
+
+All options are viable. The distinction lies in transformation appetite,
+residual risk tolerance, and governance maturity.
+
+======================================================================
+9. Synthesis
+======================================================================
+
+The enterprise is not choosing between vendors first.
+It is choosing between enforcement philosophies.
+
+The decision should reflect:
+
+- Desired risk compression domain
+- Organizational transformation capacity
+- Governance maturity trajectory
+- Time-to-risk-reduction requirements
+
+Vendor selection should follow outcome alignment — not precede it.
+
+======================================================================
+End of Document
+======================================================================

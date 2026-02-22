@@ -1,0 +1,298 @@
+ARCHITECTURE PAPER (DRAFT)
+From Product Search to Governed Service Exposure
+Enforcement Paradigms, Enterprise Reality, and the Control Plane of Sustainable Third‑Party Access
+
+Version: v0.2 (recast)
+
+---
+
+1. Why this document exists
+
+Enterprises often arrive at third‑party connectivity with a deceptively simple request: “find us a product we can buy to fix this.” The request is understandable. External connections tend to accumulate organically, created to satisfy urgent business needs, then left in place indefinitely. Over time, connectivity becomes a patchwork of tunnels, routes, firewall rules, and application‑specific controls. Visibility erodes. Ownership becomes ambiguous. Auditability becomes reactive. Risk becomes difficult to articulate, and therefore difficult to manage.
+
+In that environment, product selection conversations quickly become opinionated. Stakeholders argue for familiar tools or fashionable categories. “Zero Trust” becomes a slogan rather than an engineering discipline. Vendors compete with feature lists. The organization debates tactics without agreeing on facts.
+
+This paper is written to do the opposite. Its goal is to confront the realities of third‑party access in large enterprises, break the problem into the parts that matter, and provide a framework for deciding what should be built, bought, integrated, or simply stopped. The paper is intentionally vendor‑neutral and client‑neutral. It is designed to be publishable: an example of how complex infrastructure problems should be analyzed and governed.
+
+The core claim is simple:
+
+Secure third‑party access is not a product category. It is a governed service delivery system.
+
+---
+
+2. The problem beneath the tools
+
+Third‑party connectivity failures rarely begin as “security failures.” They begin as governance failures.
+
+When an organization has hundreds of external connections, the primary technical risks are obvious: over‑broad reachability, weak authentication, inconsistent logging, brittle applications, and inconsistent segmentation. But the deeper failure is that the organization cannot answer basic questions with confidence:
+
+• What connections exist, and why?
+• Who owns them, and who approves them?
+• What services are exposed through them?
+• What is the acceptable risk, and what is the residual risk?
+• How quickly can access be revoked or constrained during an incident?
+• What evidence exists to support audit and incident response?
+
+If these questions cannot be answered, adding a new security product does not automatically improve outcomes. A product can improve enforcement at a given layer, but it cannot substitute for the discipline of defining services, binding ownership, enforcing lifecycle, and producing usable evidence.
+
+This is why “buy vs build” is an incomplete debate. Most modern enterprise technology is consumed rather than engineered from scratch, but consumption is not the same as control. Consumption without governance simply accelerates drift.
+
+---
+
+3. Identity as a dimension, not a boundary
+
+A recurring source of confusion in modern access design is the conflation of “identity” with a specific architecture.
+
+Identity is not merely an account. Identity is a set of attributes used to establish and validate trust: user identity, device posture, session context, certificate provenance, behavioral signals, and sensitivity of the target service. These signals can be applied to nearly any enforcement architecture.
+
+Identity therefore does not define the trust boundary. It enriches whichever boundary the enterprise chooses. A model can be identity‑aware and still be fundamentally network‑centric, edge‑centric, broker‑centric, or service‑centric.
+
+This matters because many debates are really about where enforcement lives, not whether identity exists.
+
+---
+
+4. Four enforcement paradigms (four philosophies of trust)
+
+Modern enterprise offerings in this space can be understood as four distinct enforcement paradigms. Each is a coherent philosophy. Each compresses a different risk dimension. None is universally best.
+
+4.1 Network Enforcement (segmentation and reachability control)
+
+This paradigm treats adjacency as the primary risk surface. The strategy is to constrain what can route to what, and to enforce blast‑radius boundaries using transport security, segmentation constructs, and firewall policy. It is deterministic and operationally familiar.
+
+Network enforcement compresses adjacency risk. It does not inherently normalize service behavior. Applications still receive traffic directly once adjacency is permitted.
+
+4.2 Edge Abstraction (global edge as the control fabric)
+
+This paradigm moves the control boundary outward and treats the global edge as the policy and enforcement plane. It excels where services are Internet‑oriented, globally distributed, and well suited to edge termination. It can reduce perimeter complexity and consolidate controls.
+
+Edge abstraction compresses perimeter complexity. It does not inherently compensate for legacy enterprise application fragility or internal dependency nuance.
+
+4.3 Brokerage (identity‑mediated session control)
+
+This paradigm replaces static network trust with contextual, identity‑mediated access. It answers “who may reach what” dynamically and can materially reduce implicit trust. It is often effective for user‑to‑application access where services behave predictably and are designed to be consumed through the broker model.
+
+Brokerage compresses unauthorized access risk. It does not inherently transform service behavior once access is granted.
+
+4.4 Augmentation (mediated service exposure)
+
+This paradigm begins from a more skeptical premise: enterprise services are often imperfect and require mediation to be safely exposed. Augmentation inserts an enforcement plane in front of services that can normalize protocols, inject missing controls (such as mTLS), rewrite service semantics, insert inspection chains, and standardize telemetry. The mediation layer becomes part of the service delivery architecture.
+
+Augmentation compresses unsafe‑service exposure risk. It does so at the cost of greater architectural responsibility.
+
+---
+
+5. “Best in front of what?”: the substrate question
+
+The correct architectural question is not “which paradigm is best?” It is “best in front of what?”
+
+If the substrate consists primarily of modern, identity‑native services with strong internal authorization and telemetry, brokerage and edge models may provide sufficient risk compression with lower operational burden.
+
+If the substrate consists of legacy monoliths, inconsistent authentication, protocol diversity (SFTP/SSH/VDI/API mixtures), weak telemetry, and fragile operational behaviors, then exposure mediation becomes a first‑class requirement. Identity is still necessary, but identity alone is not sufficient.
+
+A useful analogy is the difference between controlling who may enter a building and ensuring the building itself is safe to occupy. Access control can be perfect, yet the building can still be structurally unsound. In many enterprises, third‑party access exposes not only authorization risk, but fragility risk: services that were never designed for external pressure, tenant isolation, or modern observability.
+
+---
+
+6. Governance as the control plane of sustainability
+
+At scale, enforcement paradigms collapse without governance.
+
+A solution supporting hundreds of external relationships cannot rely on bespoke tunnels, handcrafted firewall rules, undocumented exceptions, or informal ownership. The sustainable unit of operation must be a defined service, not a connection. That implies a control plane that can:
+
+• define service patterns (what “SFTP access” means, what “API consumer access” means, etc.)
+• bind ownership (who is accountable for the service exposure)
+• enforce lifecycle (expiry, attestation, decommissioning)
+• produce evidence (telemetry, logs, approvals, change history)
+• standardize onboarding (prompted workflows and templates)
+• support refusal (the ability to deny unsafe exposures using clear criteria)
+
+This paper intentionally does not prescribe a single implementation (portal, ITSM integration, policy engines, automation tooling). It prescribes a principle: if governance is not designed, the organization cannot reliably maintain security posture regardless of the enforcement technology chosen.
+
+---
+
+7. The reality of “as‑a‑service” and integration
+
+Many modern platforms are delivered as cloud services, yet the end‑to‑end third‑party landing zone experience is rarely turnkey. The hardest work is not buying an enforcement platform; it is designing and operationalizing the workflow that turns business intent into governed service exposure.
+
+This produces an uncomfortable but important reality: the largest long‑term cost and the greatest lock‑in risk often live in the workflow and orchestration layer rather than in tunnels or proxies. Once an enterprise encodes service patterns, approvals, telemetry conventions, and lifecycle rules into automation, changing the underlying substrate becomes expensive.
+
+This does not imply that “as‑a‑service” is wrong. It implies that the enterprise must treat workflow as part of the product, and evaluate solutions based on how well they support portable patterns, clear ownership, and sustainable operations.
+
+---
+
+8. A fact‑first method for making decisions
+
+This paper supports a fact‑first method:
+
+1) Decompose the current state into concrete risk and operational problems.
+2) Agree on which problems must be solved now, which can be deferred, and which risks are acceptable.
+3) Select an enforcement paradigm (or combination) aligned to the substrate.
+4) Design the governance workflow that makes the paradigm sustainable.
+5) Evaluate vendors and integrators against the workflow and the paradigm, not against marketing categories.
+
+Appendix A provides a “Reality Matrix” that enumerates the common risk dimensions and shows which paradigms structurally address them.
+
+Appendix B provides an intake template for interviewing connection owners and producing a minimum viable service inventory.
+
+Appendix C provides a governance Q&A that translates hard lessons into operational questions organizations should be able to answer.
+
+---
+
+9. Conclusion: a way back to disciplined IT
+
+Enterprises used to treat infrastructure as engineering: clear standards, clear patterns, clear change control, clear ownership, and repeatable operations. Over time, speed pressures and product‑driven consumption weakened those disciplines. The result is not simply more complexity; it is less agreement on truth.
+
+This paper argues that the way back is not nostalgia. It is clarity:
+
+• treat third‑party access as a governed service delivery system
+• choose enforcement boundaries based on substrate reality
+• apply identity as a dimension across paradigms
+• build governance as the control plane that sustains security and cost discipline
+
+The rest is implementation.
+
+---
+
+APPENDIX A — Enterprise Third‑Party Exposure Reality Matrix (Paradigm‑based)
+
+Legend:
+✅ Structurally addresses
+⚠️ Partially addresses / depends on configuration or additional layers
+❌ Does not address structurally
+★ Requires governance/workflow layer regardless of paradigm
+
+A. Governance and Ownership Debt
+
+| Risk Dimension | Network Enforcement | Edge Abstraction | Brokerage | Augmentation |
+|---|---|---|---|---|
+| No authoritative inventory | ❌ | ❌ | ⚠️ | ⚠️ |
+| Business owner binding | ★ | ★ | ★ | ★ |
+| Lifecycle enforcement (expiry/attestation) | ★ | ★ | ★ | ★ |
+| Portal/workflow as control plane | ★ | ★ | ★ | ★ |
+
+Truth: Governance is not delivered by enforcement technology. It must be designed and imposed.
+
+B. Unauthorized Access Risk (identity failure)
+
+| Risk Dimension | Network | Edge | Brokerage | Augmentation |
+|---|---|---|---|---|
+| Identity‑based access control | ⚠️ | ⚠️ | ✅ | ⚠️ |
+| Device posture/context | ⚠️ | ⚠️ | ✅ | ⚠️ |
+| Removal of implicit network trust | ❌ | ⚠️ | ✅ | ⚠️ |
+
+Truth: Brokerage is strongest at compressing unauthorized access risk.
+
+C. Unsafe Service Exposure Risk (application fragility / protocol reality)
+
+| Risk Dimension | Network | Edge | Brokerage | Augmentation |
+|---|---|---|---|---|
+| SSH command/session inspection | ❌ | ❌ | ❌ | ✅ |
+| SFTP mediation and governance | ❌ | ⚠️ | ❌ | ✅ |
+| Header/path rewriting & service shaping | ❌ | ⚠️ | ❌ | ✅ |
+| mTLS injection for weak services | ❌ | ⚠️ | ⚠️ | ✅ |
+| Per‑tenant service behavior profiles | ❌ | ⚠️ | ❌ | ✅ |
+
+Truth: Only augmentation governs service behavior itself.
+
+D. Observability and Telemetry
+
+| Risk Dimension | Network | Edge | Brokerage | Augmentation |
+|---|---|---|---|---|
+| Flow‑level logging | ✅ | ✅ | ✅ | ✅ |
+| Transaction‑level logging | ❌ | ⚠️ | ⚠️ | ✅ |
+| Command‑level audit | ❌ | ❌ | ❌ | ✅ |
+
+Truth: Telemetry depth follows termination and mediation depth.
+
+E. Scale and Object Sprawl
+
+| Risk Dimension | Network | Edge | Brokerage | Augmentation |
+|---|---|---|---|---|
+| Policy/object sprawl risk at 700+ tenants | ⚠️ | ⚠️ | ⚠️ | ⚠️ |
+| Tenant isolation clarity | ⚠️ | ⚠️ | ⚠️ | ✅ |
+
+Truth: Many scale failures are operational, not purely architectural.
+
+F. PKI, Secrets, and IAM Maturity
+
+| Risk Dimension | All Paradigms |
+|---|---|
+| Vendors cannot “solve” enterprise IAM immaturity | True |
+| Certificate lifecycle and secrets governance require enterprise ownership | True |
+| PKI may be necessary yet out of scope for vendor platforms | True |
+
+Truth: PKI is a necessary primitive; maturity is an enterprise responsibility.
+
+G. Residual Risk Principle
+
+All paradigms redistribute risk. Governance determines whether risk stays compressed over time.
+
+---
+
+APPENDIX B — Third‑Party Connection Governance Intake Template (portable)
+
+Purpose: produce a minimum viable, authoritative service inventory and bind ownership.
+
+1) Business Purpose
+• What business function does this access support?
+• What happens if access is removed for 30 days?
+
+2) Service Type (select one)
+• SFTP / SSH / file transfer
+• API consumer access
+• Web application access
+• VDI / remote desktop access
+• Collaboration (SharePoint/Teams/etc.)
+• Other (describe)
+
+3) Data Classification
+• Public / Internal / Confidential / Regulated (describe)
+
+4) Identity Model
+• Named users / shared accounts / service accounts
+• MFA? Device posture? Certificate required?
+• If certificate‑based: what identity is encoded (SAN/subject)?
+
+5) Current Enforcement
+• Tunnel + firewall rules
+• Application login only
+• Reverse proxy / broker
+• Unknown / undocumented (flag)
+
+6) Required Inspection and Evidence
+• Session logging? Command logging? File transfer logging?
+• TLS inspection required? DLP?
+• Where must logs go (SIEM/SOC)?
+
+7) Connectivity Characteristics
+• Directionality (inbound/outbound/bidirectional)
+• Protocols and ports
+• Required source/destination naming (FQDNs)
+
+8) Lifecycle and Ownership
+• Business owner
+• Technical owner
+• Approver
+• Renewal cadence (quarterly/annual)
+• Expiry date / termination trigger
+
+9) Risk Acknowledgment
+• If compromised: blast radius and impact
+• Residual risk acceptance owner
+
+---
+
+APPENDIX C — Governance Q&A (for workshops and decision alignment)
+
+Q1: What is the unit of control in our environment: connections, or services?
+Q2: Can we name every external relationship and the services it consumes?
+Q3: For each service, who can say “no,” and on what criteria?
+Q4: What evidence do we need to produce during an incident within 24 hours?
+Q5: What is our minimum telemetry requirement for third‑party access?
+Q6: What service patterns do we standardize (SFTP, API, VDI, web, etc.)?
+Q7: What does “least privilege” mean for each pattern in concrete terms?
+Q8: What is our lifecycle policy (expiry, attestation, decommission) and who owns it?
+Q9: Where does identity come from, and how is it bound to enforcement (accounts, certificates, posture)?
+Q10: What IAM/PKI maturity do we actually have today, and what can we realistically operate?
+
+End of document.

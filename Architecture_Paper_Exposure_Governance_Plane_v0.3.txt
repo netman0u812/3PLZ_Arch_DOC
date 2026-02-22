@@ -1,0 +1,132 @@
+
+ARCHITECTURE PAPER (v0.3)
+The Exposure Governance Plane
+A Pragmatic Path to Zero Trust in Heterogeneous Enterprises
+
+---
+
+1. Introduction: From Aspiration to Operating Reality
+
+Modern Zero Trust architectures represent an important aspiration for enterprise security.
+They assume applications can propagate identity, enforce contextual authorization across tiers,
+and produce rich transactional telemetry.
+
+In practice, many organizations operate heterogeneous application estates built over decades,
+with uneven modernization, inconsistent standards, and significant technical debt.
+Business process engineering is complex. Application cost models are uncertain.
+Enterprises must modernize while sustaining core operations.
+They are, in effect, changing tires while driving.
+
+The challenge is not intent — it is feasibility.
+
+This paper introduces the Exposure Governance Plane: a durable service mediation layer
+that overlays identity, inspection, containment, and lifecycle control around existing
+enterprise applications. It delivers substantial risk reduction without requiring disruptive
+application reinvention.
+
+---
+
+2. Zero Trust as Aspiration vs. Zero Trust in Practice
+
+Zero Trust is an evolutionary journey.
+
+Identity-native architectures require:
+- Plane separation (administrative, user, application)
+- Identity propagation across tiers
+- Context-driven authorization
+- Transactional telemetry
+- Runtime containment mechanisms
+
+Few enterprise applications fully satisfy these requirements.
+
+Therefore, rather than waiting for universal modernization, enterprises must introduce
+identity-aware exposure controls externally. The Exposure Governance Plane does not
+replace Zero Trust ambition — it operationalizes it in imperfect environments.
+
+---
+
+3. The Exposure Governance Plane Defined
+
+An Exposure Governance Plane is a Third-Party Service Mediation Layer that:
+
+- Standardizes service exposure through defined patterns (SFTP, API, Web, VDI, etc.)
+- Binds every exposure instance to named ownership and lifecycle
+- Terminates and inspects traffic where appropriate
+- Introduces identity binding and cryptographic verification
+- Enables tunable transactional and behavioral monitoring
+- Provides containment and isolation capabilities for out-of-spec sessions
+- Preserves existing application functionality
+
+It is not a tunnel platform.
+It is not merely a broker.
+It is a governed exposure fabric.
+
+---
+
+4. Authorization vs. Validation
+
+Session authorization is necessary but insufficient.
+
+Verifying identity at session establishment does not constitute transactional validation.
+True validation requires:
+
+- Protocol termination
+- Semantic understanding of application behavior
+- Identity continuity
+- Behavioral baselining
+- Runtime enforcement and isolation capability
+
+Without these, “checking every transaction” becomes rhetorical.
+
+The Exposure Governance Plane introduces these capabilities pragmatically,
+without assuming full application-layer maturity.
+
+---
+
+5. Why This Approach Is Necessary
+
+Enterprises struggle with:
+- Multiple WAF stacks
+- Multiple load balancing architectures
+- Mixed cloud and on-prem patterns
+- Diverse protocol requirements
+- Inconsistent IAM maturity
+- Limited telemetry within legacy applications
+
+Modernization is underway in most organizations — but unevenly.
+Security cannot wait for perfection.
+
+The Exposure Governance Plane reduces risk materially now,
+while enabling gradual application evolution over time.
+
+---
+
+6. Durable Risk Compression
+
+This model does not aim for theoretical purity.
+It aims for durable risk compression.
+
+By introducing:
+- Pattern-based onboarding
+- Governance workflows
+- Identity overlays
+- Inspection controls
+- Session containment pathways
+
+Enterprises can bring unmanaged exposure under structured control,
+without destabilizing critical business workflows.
+
+---
+
+7. Conclusion
+
+The Exposure Governance Plane is not a temporary bridge.
+It is a durable governance construct aligned with long-term Zero Trust aspirations.
+
+It recognizes enterprise reality,
+respects modernization constraints,
+and introduces meaningful control at the highest unmanaged risk boundary:
+third-party exposure.
+
+Appendices contain deeper discussions on identity maturity models,
+plane separation theory, and transactional enforcement semantics.
