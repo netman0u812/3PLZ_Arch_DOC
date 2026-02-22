@@ -1,0 +1,109 @@
+
+ARCHITECTURE PAPER — EXPOSURE GOVERNANCE PLANE
+Document 1 — Architectural Foundations
+Version 0.9 (Narrative Publication Edition)
+
+======================================================================
+I. THE PROBLEM IS NOT CONNECTIVITY
+======================================================================
+
+Modern enterprises are not constrained by bandwidth, routing, or encryption.
+They are constrained by unmanaged trust relationships.
+
+Over decades, organizations have accumulated thousands of external connections:
+partners, vendors, SaaS providers, APIs, file exchanges, administrative tunnels.
+Each was justified. Few were retired. Almost none were re-validated structurally.
+
+The failure pattern is consistent:
+- Network segmentation exists.
+- Application authentication exists.
+- RBAC models exist.
+- Logging exists.
+
+But they are not integrated.
+
+They rely on static overlays — VLANs, firewall rules, ACLs — to enforce policy
+without understanding identity context or transactional behavior.
+
+Zero Trust argued that identity should replace network adjacency as the primary trust boundary.
+That insight remains correct.
+
+However, most enterprise applications were not built for contextual,
+transaction-level authorization. They were built to function — not to express
+identity-rich policy logic.
+
+The Exposure Governance Plane (EGP) bridges that gap.
+
+======================================================================
+II. FOUR ENFORCEMENT PARADIGMS
+======================================================================
+
+Enterprise solutions for third-party access fall into four philosophical models:
+
+1. Network Enforcement
+2. Abstraction (Edge Consolidation)
+3. Brokerage (ZTNA Mediation)
+4. Augmentation (Identity + Inspection Overlay)
+
+Each reflects assumptions about application maturity.
+
+EGP aligns with Augmentation — not as ideology, but as necessity.
+
+======================================================================
+III. TENANT AS THE NEW BOUNDARY
+======================================================================
+
+Traditional segmentation isolates subnets.
+EGP isolates trust domains.
+
+Each tenant becomes:
+
+- A governance object
+- A PKI sub-authority
+- A DNS namespace
+- A proxy mediation boundary
+- A telemetry scope
+- A lifecycle-managed exposure unit
+
+We no longer protect networks.
+We govern exposure domains.
+
+======================================================================
+IV. IDENTITY LAYERS
+======================================================================
+
+Identity in EGP has three layers:
+
+1. Tenant Identity (cryptographic boundary)
+2. Service Identity (proxy instance certificate)
+3. Session Identity (user/system attribution)
+
+Separating these layers prevents brittle enforcement models.
+
+======================================================================
+V. EXECUTION DISCIPLINE
+======================================================================
+
+Automation must not collapse separation of duties.
+
+EGP enforces identity-bound execution via sudo and group controls.
+
+Authority is explicit.
+Privilege is modular.
+Audit is layered.
+
+======================================================================
+VI. PRACTICAL ZERO TRUST
+======================================================================
+
+EGP is a compromise between aspiration and reality.
+
+It overlays structure onto imperfect systems.
+It introduces inspection where none was integrated.
+It enforces retirement cryptographically.
+
+It replaces unmanaged adjacency with governed mediation.
+
+======================================================================
+END OF DOCUMENT
+======================================================================
