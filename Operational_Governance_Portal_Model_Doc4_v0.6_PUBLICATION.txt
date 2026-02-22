@@ -1,0 +1,398 @@
+
+OPERATIONAL GOVERNANCE AND PORTAL CONSUMPTION MODEL
+Exposure Governance Plane (EGP)
+Document 4 — Publication Draft v0.6
+
+======================================================================
+I. ORDER BEFORE VELOCITY
+======================================================================
+
+Enterprises do not collapse because they lack connectivity. They collapse
+because connectivity scales faster than control.
+
+Every third‑party connection begins with intent. A partner needs data.
+A vendor needs integration. A SaaS platform must be consumed. An API must
+be exposed. Each request is rational in isolation. Over time, however,
+these isolated decisions accumulate into a distributed surface area of
+unverified trust, undocumented ownership, and normalized risk.
+
+The problem is not technology. It is structure.
+
+The Exposure Governance Plane (EGP) exists to restore structure without
+demanding application reinvention. It does not assume modern, identity‑native,
+context‑aware microservices. It assumes enterprise reality: heterogeneous,
+monolithic, partially modernized systems with uneven identity maturity.
+
+EGP overlays identity, inspection, containment, and lifecycle discipline
+onto that reality.
+
+This document defines how.
+
+======================================================================
+II. GOVERNANCE AS A PRECONDITION
+======================================================================
+
+Automation amplifies whatever foundation it rests upon.
+If governance is weak, automation accelerates disorder.
+
+For this reason, the EGP deliberately separates authorization from execution.
+
+SNOW represents the governance authorization boundary.
+The Portal represents the execution and control plane.
+
+ASCII FLOW — INTENT TO INSTANTIATION
+
+  Application Owner
+          |
+          v
+  +-------------------+
+  | SNOW Intake       |
+  |  - AppID          |
+  |  - Owner Binding  |
+  |  - Service Scope  |
+  +-------------------+
+          |
+          v
+  Governance Review
+          |
+      Approved
+          |
+          v
+  +-------------------+
+  | EGP Portal        |
+  | Create Tenant     |
+  +-------------------+
+
+SNOW answers:
+    “Is this exposure permitted under corporate policy?”
+
+The Portal answers:
+    “How is this exposure instantiated, controlled, and observed?”
+
+The boundary is intentional. Operational efficiency must not bypass
+governance accountability.
+
+======================================================================
+III. TENANT AS A TRUST DOMAIN
+======================================================================
+
+In traditional models, a third‑party connection is a routed network segment.
+In EGP, it is a cryptographically defined trust domain.
+
+Tenant creation triggers three coordinated actions:
+
+1. Governance Registration (Portal Source of Truth)
+2. PKI Subordinate CA Issuance
+3. Authoritative DNS Namespace Creation
+
+ASCII TRUST HIERARCHY
+
+            Root CA (3plz.com)
+                    |
+                    v
+      +--------------------------------+
+      |  Sub‑CA: tenantA.3plz.com      |
+      +--------------------------------+
+            |            |            |
+            v            v            v
+      fp.tenantA    rp1.tenantA    dns1.tenantA
+
+Every service instance issued within the tenant inherits trust from the
+tenant Sub‑CA. Revocation of that Sub‑CA invalidates the entire domain.
+
+Tenant retirement is therefore not symbolic.
+It is cryptographic.
+
+======================================================================
+IV. DNS AS THE METADATA AUTHORITY
+======================================================================
+
+DNS in the EGP model is not merely resolution infrastructure.
+It is the authoritative metadata plane.
+
+TXT records encode governance state and runtime enforcement posture.
+
+Example:
+
+  rp1.tenantA.3plz.com TXT "service=reverse-proxy"
+  rp1.tenantA.3plz.com TXT "inspection=tier2"
+  rp1.tenantA.3plz.com TXT "risk_tier=high"
+  rp1.tenantA.3plz.com TXT "lifecycle=active"
+  rp1.tenantA.3plz.com TXT "anomaly_policy=isolate_on_threshold"
+
+Inspection engines consume this metadata.
+Automation pipelines reference it.
+Audit functions verify it.
+
+The Portal writes intent.
+DNS publishes authoritative truth.
+Gateways enforce runtime state.
+
+======================================================================
+V. FORWARD PROXY — IDENTITY AS SESSION BINDING
+======================================================================
+
+Forward proxy is used when reverse proxy semantics are not appropriate:
+
+• SaaS consumption
+• VDI mediation
+• Outbound bespoke integrations
+
+Forward proxy separates identity from authorization.
+
+mTLS defines WHO.
+Destination ACL defines WHERE.
+
+The email address collected during onboarding becomes:
+
+• The SAN value in the mTLS certificate
+• The retrieval identifier for issuance
+• The lifecycle notification channel
+
+ASCII FORWARD FLOW
+
+  User Browser
+       |
+       v
+  Resolve fp.tenantA.3plz.com
+       |
+       v
+  Forward Proxy
+       |
+       v
+  mTLS Certificate Present?
+      |                |
+     Yes              No
+      |                |
+      v                v
+  Proceed         Redirect to Cert Portal
+                         |
+                         v
+                   Enter Email
+                         |
+                         v
+                   Cert Delivered
+                         |
+                         v
+                   Retrieval Disabled
+
+Forward proxy does not assume application identity integration.
+It overlays session attribution and inspection capability.
+
+Inspection tiers may range from logging to full decrypted behavioral analysis.
+
+======================================================================
+VI. REVERSE PROXY — SERVICE INSTANCE ENFORCEMENT
+======================================================================
+
+Reverse proxy is explicit mediation.
+Each instance represents a discrete service boundary.
+
+If a tenant exposes 12 applications, 12 reverse proxies exist.
+Each proxy has its own certificate, policy, and inspection tier.
+
+Interactive Reverse Proxy:
+
+  Client
+     |
+     v
+  rp1.tenantA.3plz.com
+     |
+     v
+  Validate mTLS
+     |
+     v
+  Apply Policy + Inspection
+     |
+     v
+  Forward to Internal Workload
+
+API Reverse Proxy:
+
+  api.partner.com
+       |
+       v
+  rp3.tenantA.3plz.com
+       |
+       v
+  Validate Service Certificate
+       |
+       v
+  Apply API Inspection Policy
+       |
+       v
+  Forward to Target
+
+Reverse proxy allows containment and isolation per service,
+not per network.
+
+======================================================================
+VII. INTERACTIVE CHANNELS — STEP‑UP VERIFICATION
+======================================================================
+
+SSH and SFTP introduce elevated risk due to interactive capability.
+
+EGP introduces step‑up verification before session establishment.
+
+ASCII OTP FLOW
+
+  User
+    |
+    v
+  OTP Portal
+    |
+    v
+  Enter Email
+    |
+    v
+  Receive OTP
+    |
+    v
+  SSH/SFTP Gateway
+    |
+    v
+  Tenant Workload
+
+The session is bound to:
+
+tenant_id + user_email + source_ip + timestamp
+
+Interactive containment may escalate to sandbox routing if behavioral
+thresholds are exceeded.
+
+======================================================================
+VIII. INSPECTION AND ISOLATION MODEL
+======================================================================
+
+Inspection tiers are policy‑driven and tenant‑scoped.
+
+Tier 1 — Logging Only
+Tier 2 — Decrypted Content Inspection
+Tier 3 — Behavioral Correlation
+Tier 4 — Automated Isolation
+
+ASCII CONTAINMENT ESCALATION
+
+  Traffic
+     |
+     v
+  Inspection Engine
+     |
+     +-------------------------+
+     | Within Policy           |
+     |  -> Pass Through        |
+     +-------------------------+
+     |
+     +-------------------------+
+     | Threshold Exceeded      |
+     |  -> Flag Session        |
+     +-------------------------+
+     |
+     +-------------------------+
+     | Isolation Required      |
+     |  -> Route to Sandbox    |
+     +-------------------------+
+
+Isolation is session‑level, not tenant‑wide.
+
+======================================================================
+IX. EXECUTION GOVERNANCE — IDENTITY LATTICE
+======================================================================
+
+Portal authority does not equal system authority.
+
+Execution is identity‑bound using sudo and group membership.
+
+ASCII EXECUTION LATTICE
+
+  joe (human)
+      |
+      v
+  sudo -u net_alloc
+      |
+      v
+  net_alloc (dispatcher)
+      |
+      +--> sudo -u script_a
+      +--> sudo -u script_b
+      +--> sudo -u net_imp
+
+Each boundary requires explicit group membership.
+
+Audit Example:
+
+  invoking_user=joe
+  effective_user=net_alloc
+  tenant_id=tenantA
+  module=net_imp
+  result=success
+
+No identity possesses universal privilege.
+
+======================================================================
+X. TELEMETRY AS GOVERNANCE EVIDENCE
+======================================================================
+
+Telemetry is not operational decoration.
+It is governance evidence.
+
+Dashboards display:
+
+• Active sessions
+• Inspection tier per proxy
+• Anomaly events
+• Isolation actions
+• Certificate lifecycle status
+• Data transfer volumes
+
+ASCII TELEMETRY FLOW
+
+  Proxy Instance
+       |
+       v
+  Telemetry Collector
+       |
+       v
+  Tenant Dashboard
+       |
+       v
+  Governance Oversight
+
+Telemetry enables revalidation and renewal decisions.
+
+======================================================================
+XI. LIFECYCLE DISCIPLINE
+======================================================================
+
+Tenants transition through defined states:
+
+  Requested -> Approved -> Provisioning -> Active -> Suspended -> Retired
+
+Retirement triggers:
+
+• Sub‑CA revocation
+• Certificate invalidation
+• DNS removal
+• Route withdrawal
+
+Exposure is not perpetual by default.
+
+======================================================================
+XII. PRACTICAL ZERO TRUST
+======================================================================
+
+The Exposure Governance Plane does not promise perfection.
+It delivers structure.
+
+It acknowledges enterprise constraints.
+It overlays identity where none existed.
+It introduces inspection where none was integrated.
+It binds execution to identity.
+It makes retirement enforceable.
+
+This is not theoretical Zero Trust.
+It is operationally governed exposure in practice.
+
+======================================================================
+END OF DOCUMENT
+======================================================================

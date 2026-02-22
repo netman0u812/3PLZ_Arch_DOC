@@ -1,0 +1,175 @@
+VENDOR SOLUTION ANALYSIS DOCUMENT (v0.1) Mapping Vendor Offerings to the
+Exposure Governance Plane
+
+Purpose
+
+This document evaluates vendor responses through the architectural lens
+established in the Exposure Governance Plane paper. The goal is not to
+score features. The goal is to assess paradigm alignment, transactional
+validation capability, containment realism, governance integration, and
+operational sustainability in heterogeneous enterprise environments.
+
+This analysis is vendor-neutral and paradigm-driven.
+
+====================================================================== 1.
+Evaluation Framework
+
+Each vendor is evaluated across five dimensions:
+
+1)  Enforcement Paradigm Alignment
+2)  Transaction Validation Depth
+3)  Containment & Isolation Capability
+4)  Governance & Workflow Integration
+5)  Operational & Integration Burden
+
+The central question is not “which product has more features?” The
+question is:
+
+Which paradigm best compresses the enterprise’s dominant risk domains
+while remaining operationally feasible?
+
+======================================================================
+2. Cisco — Network Enforcement + Managed Integration
+
+Paradigm Alignment: Cisco’s posture centers on network enforcement and
+segmentation, augmented by identity signals and optionally delivered via
+managed service. This model excels at adjacency control and blast-radius
+reduction.
+
+Strengths: - Deterministic segmentation - Mature routing & control-plane
+expertise - Managed service option reduces internal staffing burden -
+Strong integration into traditional enterprise substrate
+
+Limitations (relative to Exposure Governance model): - Network
+enforcement does not inherently mediate protocol semantics - Transaction
+validation depth depends on additional layers - Containment beyond
+session termination requires integration effort - Governance workflow
+must be designed externally
+
+Assessment: Cisco compresses unauthorized access risk and adjacency risk
+effectively. It is less structurally aligned to unsafe service exposure
+risk unless paired with additional mediation layers.
+
+======================================================================
+3. Cloudflare — Edge Abstraction Model
+
+Paradigm Alignment: Cloudflare represents edge abstraction. Enforcement
+is shifted outward to a globally distributed edge fabric.
+
+Strengths: - Consolidated global ingress - Strong HTTP/API edge
+inspection - Scalable identity enforcement at edge - Simplified
+perimeter footprint
+
+Limitations: - Non-HTTP protocol nuance may require adaptation -
+Internal heterogeneity still exists behind edge - Governance workflow
+remains external responsibility - Deep containment may require
+additional design
+
+Assessment: Cloudflare compresses perimeter complexity and
+Internet-facing risk effectively. It is strongest where services are
+edge-compatible and uniform. It does not inherently normalize internal
+heterogeneity.
+
+======================================================================
+4. Zscaler — Identity Brokerage Model
+
+Paradigm Alignment: Zscaler operates primarily as a brokerage model.
+Identity mediates session establishment, reducing implicit network
+trust.
+
+Strengths: - Strong user-to-application identity mediation - Reduced
+reliance on static VPN constructs - Centralized policy model - Clear
+Zero Trust narrative alignment
+
+Limitations: - Brokerage validates session start, not necessarily
+in-session semantics - Deep transaction inspection requires termination
+placement - Assumes higher application maturity in some scenarios -
+Governance workflow remains enterprise responsibility
+
+Assessment: Zscaler excels at compressing unauthorized session
+establishment risk. It is less structurally aligned to unsafe service
+exposure risk unless paired with mediation and inspection layers.
+
+======================================================================
+5. F5 — Augmentation & Service Mediation
+
+Paradigm Alignment: F5 aligns most closely with augmentation. It
+introduces mediation at the service boundary, normalizing protocols and
+enabling inspection.
+
+Strengths: - Deep protocol termination & inspection capabilities -
+Flexible mediation placement (cloud/on-prem) - Tunable traffic shaping
+and inspection chains - Well aligned with heterogeneous service stacks
+
+Limitations: - Requires architectural design discipline - Governance
+workflow must be built - Operational maturity required for
+sustainability
+
+Assessment: F5 compresses unsafe service exposure risk and supports
+transactional validation semantics when designed properly. It places
+greater design responsibility on the enterprise but aligns strongly with
+the Exposure Governance Plane model.
+
+======================================================================
+6. Containment Realism Comparison
+
+Network Enforcement: Strong at adjacency reduction, limited at
+in-session containment.
+
+Edge Abstraction: Strong at perimeter isolation, variable at deep
+protocol containment.
+
+Brokerage: Strong at session control, weaker at transaction semantics
+without mediation.
+
+Augmentation: Strongest at tunable containment and protocol-aware
+enforcement.
+
+======================================================================
+7. Governance & Workflow Considerations
+
+None of the evaluated vendors inherently deliver a fully realized
+Exposure Governance Plane. All provide enforcement substrates.
+Governance, intake workflow, refusal criteria, lifecycle enforcement,
+and evidence retention must be architected at the enterprise level or
+delivered via an integrator.
+
+Cisco and F5 offer clearer managed service alternatives. Cloudflare and
+Zscaler models assume more direct enterprise integration ownership,
+though partners may fill that role.
+
+======================================================================
+8. Integration & Operational Burden
+
+The dominant cost driver across all paradigms is integration, not
+licensing.
+
+Key drivers: - Pattern standardization - Portal UX & workflow design -
+Identity integration maturity - Telemetry normalization - Containment
+policy tuning
+
+RC1 demonstrated that proof-of-implementability is essential before
+vendor scoping is credible.
+
+======================================================================
+9. Synthesis
+
+There is no universally “best” vendor. Each is coherent within its
+paradigm.
+
+The enterprise must first decide: Which risk domain is dominant?
+
+-   If adjacency risk dominates → network enforcement strong.
+-   If perimeter complexity dominates → edge abstraction strong.
+-   If implicit trust dominates → brokerage strong.
+-   If unsafe service behavior dominates → augmentation strong.
+
+Given heterogeneous substrate conditions and CISO-driven transactional
+containment requirements, augmentation-aligned architectures most
+closely match the Exposure Governance model.
+
+Final Note:
+
+Vendor selection should follow paradigm alignment — not precede it.
+
+======================================================================

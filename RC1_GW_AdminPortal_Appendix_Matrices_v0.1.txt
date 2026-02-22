@@ -1,0 +1,43 @@
+
+APPENDIX — RC1 ADMIN PORTAL + GW DESIGN FRAME
+
+The RC1 implementation was not a discretionary build exercise; it was a proof-of-implementability.
+The enterprise originally sought a product purchase to solve third-party access risk. However,
+without a concrete operational model, vendor evaluation becomes speculative.
+
+RC1 established a working control-plane and data-plane reference architecture:
+
+- A horizontally scalable Gateway (GW) cluster forms the mediation fabric.
+- Tenants terminate on routed loopback VIPs dynamically advertised via OSPF.
+- Each tenant is isolated through VRF/VLAN/VXLAN overlays across all nodes.
+- A portal serves as the governance control plane and source of truth.
+
+Two operational roles enforce separation of duties:
+
+- net_alloc: allocation authority (IP blocks, VRFs, VLANs, loopbacks, proxy VIPs)
+- net-imp: implementation authority (instantiate tunnels, routing, overlays, enforcement)
+
+RC1 therefore provides the evaluation frame for vendor offerings:
+it defines what must exist operationally for any paradigm to be real.
+
+======================================================================
+MATRIX 1 — FEATURE RESPONSE SUMMARY (High-Level)
+
+                Capability Area    Cisco Cloudflare     Zscaler             F5
+  Identity-based Access Control      Yes        Yes      Strong            Yes
+   IPsec / Network Connectivity      Yes        Yes     Partial            Yes
+    HTTP/API Proxy + Inspection      Yes     Strong      Strong         Strong
+       SSH/SFTP Deep Inspection  Limited       Weak        Weak         Strong
+Session Recording / Containment Moderate   Moderate        Weak         Strong
+   Self-Service Portal Workflow      Yes    Partial     Partial Requires build
+Managed Service Delivery Option      Yes    Partial Partner-led    Yes/Partner
+
+======================================================================
+MATRIX 2 — PARADIGM ALIGNMENT + GOVERNANCE STANDARDS
+
+            Paradigm Primary Vendor Example                                      Governance Strengths                                    Relevant Governance Standards
+ Network Enforcement                  Cisco                 Segmentation control, adjacency reduction                  NIST 800-207 (segmentation), CIS Controls 12/13
+    Edge Abstraction             Cloudflare        Centralized edge policy + perimeter simplification           NIST ZTNA edge enforcement, ISO 27001 boundary control
+  Identity Brokerage                Zscaler              Identity session mediation + least privilege      NIST 800-207 identity pillars, Zero Trust access governance
+Service Augmentation                     F5 Protocol mediation + transaction validation + containment NIST 800-53 AC/SC controls, transaction monitoring + containment
+

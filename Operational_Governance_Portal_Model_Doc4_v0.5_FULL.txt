@@ -1,0 +1,387 @@
+
+OPERATIONAL GOVERNANCE AND PORTAL CONSUMPTION MODEL
+Document 4 — Exposure Governance Plane
+Version 0.5 FULL (Expanded Narrative + Deep Flows + Telemetry Model)
+
+======================================================================
+I. INTRODUCTION — STRUCTURE BEFORE SCALE
+======================================================================
+
+Large enterprises rarely suffer from a lack of connectivity. They suffer from
+a lack of structured exposure governance. Over time, partner connections,
+SaaS integrations, API exchanges, SFTP feeds, and administrative tunnels
+accumulate. Each connection begins with a valid business purpose. Few are
+retired. Fewer are revalidated.
+
+The result is not malicious. It is organic entropy.
+
+The Exposure Governance Plane (EGP) exists to reverse that entropy without
+requiring wholesale application redesign. It overlays identity, inspection,
+containment, and structured lifecycle management on top of heterogeneous
+systems that were never built for Zero Trust-native operation.
+
+This document defines the operational spine of that overlay.
+
+It explains:
+• Why governance must precede automation
+• How tenants become trust domains
+• How identity is applied differently per mediation pattern
+• How execution authority is constrained
+• How inspection and isolation are integrated
+• How lifecycle is enforced cryptographically
+
+======================================================================
+II. GOVERNANCE → EXECUTION → ENFORCEMENT (LAYERED MODEL)
+======================================================================
+
+The Exposure Governance Plane is layered intentionally.
+
+Layer 1 — Governance Authorization (SNOW)
+Layer 2 — Control Plane Instantiation (Portal)
+Layer 3 — Cryptographic Trust (PKI + DNS)
+Layer 4 — Runtime Mediation (Proxies)
+Layer 5 — Inspection + Containment (Telemetry Engine)
+
+ASCII GOVERNANCE STACK
+
+  Business Intent
+        |
+        v
+  +-------------------+
+  | SNOW Authorization|
+  +-------------------+
+        |
+        v
+  +-------------------+
+  | Portal Instantiation |
+  +-------------------+
+        |
+        v
+  +-------------------+
+  | PKI + DNS Domain  |
+  +-------------------+
+        |
+        v
+  +-------------------+
+  | Proxy Mediation   |
+  +-------------------+
+        |
+        v
+  +-------------------+
+  | Inspection Engine |
+  +-------------------+
+
+Each layer has a different responsibility and different failure boundary.
+
+======================================================================
+III. TENANT AS A CRYPTOGRAPHIC AND GOVERNANCE DOMAIN
+======================================================================
+
+When a tenant is created, three authoritative systems change:
+
+1. Governance Registry (Portal SoT)
+2. PKI Trust Hierarchy
+3. Authoritative DNS Namespace
+
+ASCII TRUST HIERARCHY
+
+           Root CA (3plz.com)
+                   |
+                   v
+        +-------------------------+
+        |  Sub-CA: tenantA        |
+        |  tenantA.3plz.com       |
+        +-------------------------+
+             |          |          |
+             v          v          v
+         fp.tenantA  rp1.tenantA  dns1.tenantA
+
+Revoking the tenant Sub-CA invalidates all issued proxy certificates.
+
+Tenant death is cryptographic.
+
+======================================================================
+IV. DNS AS AUTHORITATIVE METADATA PLANE
+======================================================================
+
+DNS is not decorative. It is authoritative.
+
+TXT records encode governance metadata consumed by automation and inspection.
+
+Example DNS Schema:
+
+  Field                Purpose
+  -------------------  ----------------------------------
+  service              forward-proxy / reverse-proxy
+  inspection           tier1 / tier2 / sandbox
+  owner                AppID binding
+  lifecycle            active / suspended / retired
+  risk_tier            low / medium / high
+  anomaly_policy       isolate_on_threshold
+
+Example Record:
+
+  rp1.tenantA.3plz.com TXT "service=reverse-proxy"
+  rp1.tenantA.3plz.com TXT "inspection=tier2"
+  rp1.tenantA.3plz.com TXT "risk_tier=high"
+  rp1.tenantA.3plz.com TXT "anomaly_policy=isolate_on_threshold"
+
+Inspection engines read this metadata to determine runtime enforcement posture.
+
+======================================================================
+V. FORWARD PROXY — IDENTITY OVERLAY + DESTINATION CONTROL
+======================================================================
+
+Forward proxy supports:
+
+• SaaS access
+• VDI mediation
+• Bespoke outbound services
+
+Identity Model:
+mTLS binds WHO.
+Destination ACL defines WHERE.
+
+ASCII FORWARD FLOW (DETAILED)
+
+User Browser
+     |
+     v
+ DNS Resolution -> fp.tenantA.3plz.com
+     |
+     v
+ Gateway Forward Proxy
+     |
+     v
+ Is Client Cert Present?
+     |                 |
+    Yes               No
+     |                 |
+     v                 v
+ Continue        Redirect to Cert Portal
+                      |
+                      v
+                Enter Email Address
+                      |
+                      v
+                Cert Issued to Browser
+                      |
+                      v
+                Retrieval Disabled
+
+Traffic then flows through inspection engine before destination.
+
+======================================================================
+VI. REVERSE PROXY — SERVICE INSTANCE MEDIATION
+======================================================================
+
+Each reverse proxy is explicitly declared and individually trusted.
+
+Interactive Reverse Proxy Flow:
+
+ Client
+   |
+   v
+ rp1.tenantA.3plz.com
+   |
+   v
+ Validate mTLS
+   |
+   v
+ Apply Inspection Tier
+   |
+   v
+ Forward to Internal Service
+
+API Reverse Proxy Flow:
+
+ API Server (api.partner.com)
+   |
+   v
+ rp3.tenantA.3plz.com
+   |
+   v
+ Validate Service Certificate
+   |
+   v
+ Apply API-specific inspection policy
+   |
+   v
+ Forward to workload
+
+Each instance can have a different inspection tier and anomaly policy.
+
+======================================================================
+VII. SSH / SFTP — INTERACTIVE CONTAINMENT MODEL
+======================================================================
+
+Interactive sessions require step-up verification.
+
+ASCII OTP FLOW
+
+  User
+    |
+    v
+  +-----------+
+  | OTP Portal|
+  +-----------+
+    |
+    v
+  Enter Email
+    |
+    v
+  Receive OTP
+    |
+    v
+  SSH/SFTP Session (email + OTP)
+
+Session metadata binds:
+
+tenant_id + username + source_ip + timestamp
+
+Interactive sessions may trigger sandbox isolation on anomaly detection.
+
+======================================================================
+VIII. INSPECTION + ISOLATION ESCALATION MODEL
+======================================================================
+
+Inspection tiers may include:
+
+Tier 1 — Standard logging
+Tier 2 — Decrypted content inspection
+Tier 3 — Behavioral anomaly detection
+Tier 4 — Sandbox isolation
+
+ASCII CONTAINMENT ESCALATION
+
+ Traffic Flow
+     |
+     v
+ Inspection Engine
+     |
+     +----------------------------+
+     | Within Policy              |
+     |  -> Pass Through           |
+     +----------------------------+
+     |
+     +----------------------------+
+     | Threshold Exceeded         |
+     |  -> Session Flagged        |
+     +----------------------------+
+     |
+     +----------------------------+
+     | Policy Requires Isolation  |
+     |  -> Route to Sandbox       |
+     +----------------------------+
+
+Isolation may occur per session, not per tenant.
+
+======================================================================
+IX. EXECUTION GOVERNANCE (IDENTITY LATTICE)
+======================================================================
+
+Automation must not collapse separation of duties.
+
+ASCII EXECUTION CHAIN
+
+  joe (human)
+      |
+      v
+  sudo -u net_alloc
+      |
+      v
+  net_alloc (dispatcher)
+      |
+      +--> sudo -u script_a
+      |
+      +--> sudo -u script_b
+      |
+      +--> sudo -u net_imp
+
+Group membership is required at each boundary.
+
+Audit Log Example:
+
+  invoking_user=joe
+  effective_user=net_alloc
+  tenant_id=tenantA
+  module=script_a
+  result=success
+
+Privilege is modular and explicit.
+
+======================================================================
+X. TELEMETRY + DASHBOARD MODEL
+======================================================================
+
+Management View Displays:
+
+• Active sessions per proxy
+• Transaction volume
+• Inspection tier per service
+• Anomaly alerts
+• Isolation events
+• Certificate lifecycle status
+
+ASCII TELEMETRY FLOW
+
+ Proxy
+   |
+   v
+ Telemetry Collector
+   |
+   v
+ Tenant Dashboard
+   |
+   v
+ Governance Review
+
+Telemetry supports audit, not just operations.
+
+======================================================================
+XI. TENANT LIFECYCLE MODEL
+======================================================================
+
+ASCII STATE FLOW
+
+ Requested
+    |
+ Approved
+    |
+ Provisioning
+    |
+ Active
+    |
+ Suspended
+    |
+ Retired
+
+Retirement triggers:
+
+• Sub-CA revocation
+• Proxy certificate invalidation
+• DNS depublication
+• Route withdrawal
+
+======================================================================
+XII. CONCLUSION — PRACTICAL ZERO TRUST
+======================================================================
+
+The Exposure Governance Plane does not assume application perfection.
+It assumes enterprise reality.
+
+It overlays:
+
+• Identity where none existed
+• Inspection where none was integrated
+• Containment where none was enforceable
+• Governance where none was structured
+
+It converts unmanaged exposure into governed service mediation.
+
+This is not theoretical Zero Trust.
+It is structured exposure control in practice.
+
+======================================================================
+END OF DOCUMENT
+======================================================================

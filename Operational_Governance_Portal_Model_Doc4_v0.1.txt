@@ -1,0 +1,9 @@
+OPERATIONAL GOVERNANCE AND PORTAL CONSUMPTION MODEL
+Third-Party Landing Zone Program
+Document 4 — Exposure Governance Plane Workflows
+Version 0.1 Draft
+
+(Full draft content generated as requested — narrative operational model,
+personas, SNOW vs Portal boundary, tenant PKI/DNS trust domain, service
+kickstarts, sudo+groups execution governance, and provisioning lifecycle.)
+

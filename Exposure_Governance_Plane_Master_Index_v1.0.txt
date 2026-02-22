@@ -1,0 +1,175 @@
+MASTER INDEX OF IDEAS, MODELS, AND FRAMEWORKS Exposure Governance Plane
+Program Version 1.0 (Session Consolidation)
+
+====================================================================== 1.
+Core Problem Shift: Connectivity → Governance
+
+Initial framing: “Find a product to fix third‑party access.” Refined
+understanding: Third‑party access is not a network problem first — it is
+a governance problem with technical symptoms.
+
+Key deficiencies identified: - No authoritative inventory - No named
+ownership - No lifecycle enforcement - No standardized service
+definition - No containment model - No durable evidence model
+
+======================================================================
+2. The Exposure Governance Plane (Primary Concept)
+
+Definition: A durable service mediation layer paired with a governance
+control plane that overlays identity binding, inspection, containment,
+lifecycle control, and telemetry normalization around existing
+enterprise applications.
+
+Shift in thinking: From tunnels and firewall rules → to governed service
+exposure.
+
+======================================================================
+3. ZTNA as an Evolutionary Journey
+
+Zero Trust is a direction, not a product. Identity‑native architectures
+assume application maturity that is uneven across enterprise estates.
+
+Gap identified: Leadership expectations (validate every transaction) vs
+Application maturity reality (limited identity propagation and
+telemetry).
+
+Core insight: The challenge is not intent — it is feasibility.
+
+======================================================================
+4. Brokerage vs Augmentation
+
+Brokerage: - Identity-mediated access - Compresses unauthorized session
+establishment risk
+
+Augmentation: - Service mediation + protocol normalization - Compresses
+unsafe service exposure risk
+
+Key principle: Authorization is necessary but insufficient when
+applications cannot enforce policy themselves.
+
+======================================================================
+5. Authorization vs Transaction Validation
+
+Session authorization answers: “Should this identity connect?”
+
+Transactional validation answers: “Is this session behaving within
+expected bounds?”
+
+Validation requires: - Termination - Semantic protocol understanding -
+Identity continuity - Behavioral baseline - Runtime containment
+
+Principle: If you do not terminate and understand the protocol, you are
+not validating transactions — you are validating login.
+
+======================================================================
+6. Containment & Isolation
+
+Containment ladder defined: 1. Alert 2. Rate limit 3. Session
+termination 4. Redirect to inspection pool 5. Tenant quarantine
+
+Principle: Detection without containment shifts risk to response time.
+
+======================================================================
+7. Enterprise Substrate Reality
+
+Observed heterogeneity: - Multiple SFTP implementations - Multiple WAF
+stacks - Mixed cloud/on‑prem patterns - SaaS + internal file sharing -
+VDI coexistence - Internal → third‑party flows
+
+Implication: There is no single architecture to secure — only patterns
+to govern.
+
+======================================================================
+8. Service Exposure Instance (Atomic Unit)
+
+Pattern + Tenant + Owner + Lifecycle + Evidence
+
+Shift: Unit of control is a service exposure instance, not a tunnel or
+firewall rule.
+
+======================================================================
+9. Portal as Command-and-Control
+
+Plane separation model: - Governance / Control Plane (Portal) -
+Allocation Plane (net_alloc) - Implementation Plane (net-imp)
+
+Benefits: - Deterministic automation - Separation of duties - Replayable
+evidence
+
+======================================================================
+10. Governance as the Real Product
+
+Vendors provide enforcement substrates. Enterprise must design: -
+Workflow - Refusal criteria - Evidence model - Lifecycle control -
+Standardized patterns
+
+======================================================================
+11. Refusal Authority
+
+YES requires consensus. NO requires a standard.
+
+Refusal triggers: - No owner - No expiry - No logging - Generic identity
+without justification
+
+======================================================================
+12. Identity Maturity Model
+
+Level 0 – Network trust Level 1 – User identity Level 2 – User + device
+context Level 3 – Workload identity Level 4 – Contextual transaction
+authorization Level 5 – Continuous adaptive containment
+
+Observation: Most enterprises operate between Levels 1–3.
+
+======================================================================
+13. RC1 as Proof-of-Implementability
+
+Purpose of RC1: - Validate theory - Model cost - Enable vendor
+evaluation - Demonstrate feasibility
+
+Principle: If theory cannot be implemented, vendor claims cannot be
+evaluated.
+
+======================================================================
+14. Vendor Paradigm Lens
+
+Cisco – Network enforcement + managed integration Cloudflare – Edge
+abstraction Zscaler – Brokerage F5 – Augmentation
+
+Insight: Vendors are coherent within paradigms, not interchangeable
+feature sets.
+
+======================================================================
+15. Self‑Service Reality
+
+Self‑service requires: - Full UX definition - Deterministic automation -
+Governance metadata - Clear refusal criteria
+
+Without workflow, “self‑service” is marketing.
+
+======================================================================
+16. Business Value Framing
+
+Exposure Governance delivers: - Structured ownership - Risk inventory -
+Audit evidence - Transaction visibility - Incident containment
+leverage - Standardization-driven cost control
+
+======================================================================
+17. Matrices Developed
+
+Matrix 1 – Enforcement Paradigm Comparison Matrix 2 – Risk Domain
+Compression Matrix Matrix 3 – Governance Intake + Evidence Model Matrix
+4 – Identity Maturity Progression Matrix 5 – Transaction Validation &
+Containment Ladder Matrix 6 – Vendor Alignment Against Paradigms
+
+======================================================================
+18. Open Expansion Areas
+
+-   Operational cost modeling
+-   Decommission lifecycle enforcement
+-   Residual risk ownership model
+-   Renewal/attestation cycles
+
+======================================================================
+
+This index represents the consolidated intellectual foundation for the
+Exposure Governance Plane program and related documents.

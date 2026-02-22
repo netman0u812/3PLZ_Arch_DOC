@@ -1,0 +1,391 @@
+VENDOR SOLUTION ANALYSIS (v0.2) Paradigm-First Mapping to the Exposure
+Governance Plane
+
+Executive Summary
+
+This document evaluates vendor responses through the architectural lens
+established in the Exposure Governance Plane paper. The purpose is not
+to score feature lists, but to determine structural alignment between
+vendor paradigms and the enterprise’s dominant risk domains.
+
+Third-party access is not only an access-control problem. In
+heterogeneous enterprises, it is primarily a governance and
+service-exposure problem: ownership, lifecycle, evidence, protocol
+mediation, transactional assurance, and containment.
+
+Vendor offerings in this space are coherent within distinct enforcement
+paradigms:
+
+-   Network Enforcement
+-   Edge Abstraction
+-   Identity Brokerage
+-   Service Augmentation (Mediation)
+
+The enterprise must choose the paradigm that compresses its dominant
+risks before selecting a product.
+
+======================================================================
+
+1.  The Evaluation Lens: Why Paradigms Matter
+
+Most RFP processes implicitly assume vendors are interchangeable “ZTNA”
+solutions differentiated by features. The responses demonstrate
+otherwise.
+
+Each vendor encodes a philosophy about where enforcement belongs:
+
+-   At the network boundary (segmentation)
+-   At the global edge (abstraction)
+-   At an identity broker (session mediation)
+-   At a service mediation layer (augmentation)
+
+These paradigms optimize different risk dimensions. Feature comparisons
+without paradigm clarity produce false equivalence.
+
+======================================================================
+
+2.  Enterprise Substrate Reality: Why Brokerage Alone Is Insufficient
+
+Large enterprises rarely present a uniform application architecture.
+Instead, they operate mixed estates:
+
+-   Multiple SFTP implementations
+-   Multiple WAF and load-balancing stacks
+-   Mixed cloud-native and on-prem patterns
+-   SaaS and internally hosted collaboration
+-   VDI/Citrix coexistence
+-   Internal-to-third-party workload flows
+
+In such environments, third-party exposure cannot be treated as a single
+connectivity pattern. Each tenant exposure must be defined as a bespoke
+service instance governed through standard patterns.
+
+This is why the portal and workflow model is not a convenience feature.
+It is the control plane that makes heterogeneity governable.
+
+======================================================================
+
+3.  Transaction Validation and the CISO Containment Requirement
+
+Leadership expectations often include “validate every transaction” and
+“isolate out-of-spec sessions.” These requirements exceed session
+authorization alone.
+
+Transactional validation requires:
+
+-   Protocol termination where inspection is needed
+-   Semantic understanding of protocol behavior
+-   Identity continuity across actions
+-   Behavioral baselining
+-   Runtime containment mechanisms
+
+Containment is not binary deny/allow. It is a ladder:
+
+1.  Alert and log
+2.  Rate limit
+3.  Session termination
+4.  Redirect to inspection pool
+5.  Tenant quarantine
+
+Solutions must be evaluated on whether they can operationalize this, not
+merely authorize session establishment.
+
+======================================================================
+
+4.  Vendor Paradigm Mapping
+
+4.1 Cisco — Network Enforcement + Managed Integration
+
+Cisco’s response aligns most strongly with network enforcement and
+segmentation, augmented by identity signals and often delivered with
+managed service capability.
+
+Strengths: - Deterministic adjacency control and blast-radius
+reduction - Strong enterprise routing/control-plane integration -
+Operational maturity through managed delivery options
+
+Limitations: - Network enforcement does not inherently mediate protocol
+semantics - Transaction validation depth depends on additional layers -
+Governance workflow remains an enterprise responsibility
+
+Cisco compresses adjacency and unauthorized access risk effectively, but
+unsafe service exposure risk requires augmentation beyond pure network
+controls.
+
+------------------------------------------------------------------------
+
+4.2 Cloudflare — Edge Abstraction Model
+
+Cloudflare represents a global edge abstraction philosophy: enforcement
+is shifted outward to a distributed edge fabric.
+
+Strengths: - Consolidated Internet-facing ingress and policy
+enforcement - Strong HTTP/API edge inspection capabilities - Scalable
+edge identity integration
+
+Limitations: - Protocol diversity and internal locality nuance require
+adaptation - Internal heterogeneity persists behind the edge - Deep
+containment beyond edge policy requires additional design
+
+Cloudflare compresses perimeter complexity effectively where services
+are edge-compatible, but does not inherently normalize enterprise
+service diversity.
+
+------------------------------------------------------------------------
+
+4.3 Zscaler — Identity Brokerage Model
+
+Zscaler aligns with the brokerage paradigm: identity mediates session
+establishment, reducing implicit network trust.
+
+Strengths: - Strong user-to-application identity mediation - Centralized
+policy model and clear ZTNA narrative - Reduction of static VPN
+dependence
+
+Limitations: - Brokerage validates session start, not necessarily
+in-session semantics - Deep transaction inspection requires termination
+placement - Assumes higher application maturity for full promise -
+Governance workflow remains enterprise responsibility
+
+Zscaler compresses unauthorized session establishment risk strongly, but
+unsafe service exposure and containment require mediation layers.
+
+------------------------------------------------------------------------
+
+4.4 F5 — Augmentation and Service Mediation
+
+F5 aligns most closely with augmentation: inserting mediation at the
+service boundary to normalize protocols, inject missing controls, and
+enable inspection.
+
+Strengths: - Deep protocol termination and inspection flexibility -
+Tunable mediation placement (cloud/on-prem) - Strong alignment with
+heterogeneous service stacks - Structural support for containment
+pathways
+
+Limitations: - Requires architectural discipline and operational
+maturity - Governance workflow must still be built or integrated
+
+F5 compresses unsafe service exposure risk most directly and aligns
+strongly with the Exposure Governance Plane model when designed
+correctly.
+
+======================================================================
+
+5.  Governance and Integration Reality
+
+None of the evaluated vendors deliver a complete Exposure Governance
+Plane as a turnkey service. All provide enforcement substrates.
+
+The dominant cost driver is integration and workflow design:
+
+-   Pattern standardization
+-   Portal UX and intake governance
+-   Identity lifecycle maturity
+-   Telemetry normalization
+-   Containment policy tuning
+
+Managed service options exist more clearly in some paradigms, but
+governance ownership cannot be outsourced entirely. The enterprise must
+define the unit of control: the Service Exposure Instance.
+
+======================================================================
+
+6.  Problem vs Vendor Coverage Matrix (Paradigm View)
+
+Risk / Requirement Cisco Cloudflare Zscaler F5
+
+Adjacency control Strong Moderate Weak Moderate Unauthorized session
+prevention Moderate Strong Strong Strong Protocol mediation depth Weak
+Moderate Weak Strong Transactional validation Weak Moderate Weak Strong
+Containment / isolation realism Moderate Moderate Weak Strong
+Heterogeneous service fit Moderate Moderate Moderate Strong Governance
+workflow provided Partial Partial Partial Partial Integration burden
+High High High High
+
+Key takeaway: The differentiator is not access brokerage. The
+differentiator is mediation depth and containment realism in
+heterogeneous application environments.
+
+======================================================================
+
+7.  Synthesis
+
+There is no universally “best” vendor. Each is coherent within its
+paradigm.
+
+The enterprise must first decide which risk domain dominates:
+
+-   If adjacency risk dominates → network enforcement strong.
+-   If perimeter complexity dominates → edge abstraction strong.
+-   If implicit trust dominates → brokerage strong.
+-   If unsafe service behavior dominates → augmentation strong.
+
+Given heterogeneous substrate conditions and explicit containment
+expectations, augmentation-aligned architectures most closely match the
+Exposure Governance Plane model.
+
+Vendor selection should follow paradigm alignment — not precede it.
+
+
+
+APPENDIX — RC1 ADMIN PORTAL & GATEWAY REFERENCE ARCHITECTURE
+Evidence-Based Evaluation Frame for Vendor Paradigms (v0.2 POLISHED)
+
+======================================================================
+
+Purpose
+
+This appendix documents the RC1 Gateway and Administrative Portal design
+because it is not merely an implementation artifact — it is the proof-of-
+implementability reference model that makes vendor evaluation possible.
+
+The enterprise’s initial request was framed as a product selection problem:
+“find us a solution we can buy to fix third-party access.”
+
+RC1 demonstrated a more fundamental truth:
+
+Third-party exposure is not solved by connectivity alone.
+It is solved by governed service mediation: identity binding, protocol-aware
+inspection, containment, lifecycle control, and evidence generation.
+
+Without an operational reference model, vendor claims cannot be evaluated
+credibly, scoping cannot be grounded, and integration cost cannot be estimated.
+
+RC1 therefore provides the structural frame against which all vendor paradigms
+must be measured.
+
+======================================================================
+
+1. RC1 Gateway Horizontal Scaling Model
+
+The RC1 data plane is a horizontally scalable Gateway (GW) cluster.
+Capacity is increased by adding nodes, not redesigning architecture.
+
+Each node has two interfaces:
+
+- eth0 (Public / Default VRF):
+  Terminates tenant-facing IPsec connectivity.
+
+- eth1 (Internal / Service-side):
+  Routes mediated proxy traffic toward enterprise application domains.
+
+Tenants terminate on routed loopback VIPs:
+
+- Each tenant is assigned a unique loopback address from a shared block.
+- Loopbacks exist on all nodes, with one node selected as primary.
+- OSPF dynamically advertises the active tenant VIP upstream.
+
+This enables:
+
+- deterministic reachability
+- horizontal scaling
+- failover without readdressing
+
+======================================================================
+
+2. Tenant Isolation via VRF/VLAN/VXLAN Overlays
+
+Each tenant is provisioned as a fully isolated logical segment:
+
+- Tenant IP block
+- Unique VRF name
+- Unique VLAN ID
+- Unique VXLAN ID
+
+All gateway nodes participate in the tenant overlay,
+enabling multi-node service delivery while preserving isolation.
+
+======================================================================
+
+3. Portal as Governance Control Plane (Source of Truth)
+
+The administrative portal is not “UI.”
+It is the control plane that makes governance operable.
+
+Provisioning is executed through strict separation of duties:
+
+- net_alloc (Allocation Authority):
+  Assigns scarce shared resources:
+  loopbacks, IP blocks, VRFs, VLANs, VXLAN IDs, proxy VIPs, egress IPs.
+
+- net-imp (Implementation Authority):
+  Applies infrastructure state:
+  tunnels, routing, overlays, enforcement chains.
+
+This model enables:
+
+- deterministic automation
+- audit replayability
+- refusal authority through workflow gates
+- lifecycle enforcement through portal governance
+
+======================================================================
+
+4. Why RC1 Was Required
+
+RC1 was not discretionary.
+It answered three critical enterprise questions:
+
+1. Can the theory be implemented?
+2. What does “self-service governance” actually require?
+3. What is the real integration cost driver?
+
+RC1 proved that the dominant cost is workflow, not licensing.
+It also established the “Service Exposure Instance” as the unit of control,
+not the tunnel or firewall rule.
+
+======================================================================
+
+MATRIX 1 — FEATURE RESPONSE ALIGNMENT (Supported / Limited / Not Supported)
+
+Capability Area                    Cisco        Cloudflare     Zscaler       F5
+--------------------------------------------------------------------------------
+Identity-based access control       Supported    Supported      Supported     Supported
+IPsec connectivity                 Supported    Supported      Limited       Supported
+HTTP/API proxy inspection          Supported    Supported      Supported     Supported
+SSH/SFTP deep inspection           Limited      Not Supported  Not Supported Supported
+Session recording / containment     Limited      Limited        Not Supported Supported
+Self-service portal workflow        Supported    Limited        Limited       Requires build
+Managed service delivery option     Supported    Partial        Partner-led   Supported/Partner
+
+Evidence notes:
+- Design review highlights Zscaler lacks SSH DPI and session inspection.
+- Cisco Secure shows limited SSH/SFTP logging depth.
+- Augmentation patterns (F5) align with session mediation, key injection,
+  and protocol-aware containment.
+
+======================================================================
+
+MATRIX 2 — PARADIGM ALIGNMENT + GOVERNANCE CONTROL COVERAGE
+
+Paradigm              Vendor Example   Governance Controls Delivered
+--------------------------------------------------------------------------------
+Network Enforcement    Cisco            AC-4 (Info Flow Enforcement),
+                                      SC-7 (Boundary Protection),
+                                      Segmentation & adjacency reduction
+
+Edge Abstraction       Cloudflare       SC-7 Boundary Protection,
+                                      Centralized ingress governance,
+                                      Edge inspection for web/API
+
+Identity Brokerage     Zscaler          AC-2/AC-3 (Identity & Least Privilege),
+                                      Session establishment governance,
+                                      Reduced implicit trust
+
+Service Augmentation   F5               SC-8/SC-13 (Transmission Protection),
+                                      AU-2/AU-12 (Audit Evidence),
+                                      Protocol mediation + containment,
+                                      Transaction validation overlays
+
+Key takeaway:
+
+Brokerage compresses unauthorized session establishment risk.
+Augmentation compresses unsafe service exposure risk.
+
+The Exposure Governance Plane requires both governance workflow and
+mediation depth, especially in heterogeneous application estates.
+
+======================================================================
+
+End of Appendix

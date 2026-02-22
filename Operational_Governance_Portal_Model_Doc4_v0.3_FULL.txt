@@ -1,0 +1,338 @@
+
+OPERATIONAL GOVERNANCE AND PORTAL CONSUMPTION MODEL
+Document 4 — Exposure Governance Plane (Narrative Edition v0.3 FULL)
+
+======================================================================
+I. Why This Exists
+======================================================================
+
+Enterprises do not struggle with connectivity. They struggle with control.
+
+For decades, third-party access has been implemented as routed IP adjacency
+protected by stateful firewalls. The pattern is familiar: build a tunnel,
+permit a subnet, restrict a few ports, and rely on application-level controls
+to provide whatever identity, authorization, and logging may exist.
+
+This model scales exposure but not governance.
+
+Over time, hundreds of connections accumulate. Ownership drifts. Documentation
+degrades. Firewall rules become institutional memory. Risk becomes normalized.
+The enterprise does not consciously choose this condition — it inherits it.
+
+The Third-Party Landing Zone (3PLZ) program exists to interrupt that drift.
+
+It does not attempt to redesign every application. It does not assume modern
+identity-native workloads. Instead, it overlays structure, identity, inspection,
+and containment on top of heterogeneous systems that were never designed for
+Zero Trust consumption.
+
+This document defines how that overlay works operationally.
+
+======================================================================
+II. Governance Before Automation
+======================================================================
+
+Automation without governance accelerates disorder.
+
+Therefore, exposure must pass through a human governance boundary before it
+becomes technical reality.
+
+SNOW functions as the governance intake boundary:
+
+    [Application Owner]
+            |
+            v
+    (SNOW Request Submitted)
+            |
+            v
+    [Governance Review]
+            |
+     Approved / Rejected
+
+SNOW binds:
+- Application ID (AppID)
+- Manager and SVP chain
+- Tenant Owners
+- Requested service patterns
+- Accountability acceptance
+
+SNOW answers the question:
+
+    “Is this exposure allowed?”
+
+The Portal answers a different question:
+
+    “How is this exposure implemented and governed?”
+
+The separation is intentional. Governance cannot be bypassed by technical speed.
+
+======================================================================
+III. Tenant as Trust Domain
+======================================================================
+
+When a tenant is approved, the system does not merely allocate a subnet.
+It creates a trust domain.
+
+Root Trust:
+
+    Root CA: 3plz.com
+
+Tenant Trust:
+
+    tenant_id.3plz.com
+    |
+    +-- Sub-CA: tenant_id.3plz.com (signed by Root CA)
+
+From this point forward, every service instance within that tenant is
+cryptographically isolated.
+
+Forward Proxy Identity:
+    fp.tenant_id.3plz.com
+
+Reverse Proxy Identities:
+    rp1.tenant_id.3plz.com
+    rp2.tenant_id.3plz.com
+    ...
+
+Tenant creation is therefore both:
+- A governance event
+- A cryptographic event
+
+======================================================================
+IV. DNS as the Governance Data Plane
+======================================================================
+
+DNS is not merely name resolution. It is the authoritative metadata layer.
+
+Example:
+
+    rp1.tenantA.3plz.com   A    172.16.10.5
+    rp1.tenantA.3plz.com   TXT  "service=reverse-proxy"
+    rp1.tenantA.3plz.com   TXT  "inspection=tier2"
+    rp1.tenantA.3plz.com   TXT  "owner=ABC_APP"
+    rp1.tenantA.3plz.com   TXT  "lifecycle=active"
+
+Portal writes intent.
+DNS publishes truth.
+Gateways enforce runtime state.
+
+This enables inspection engines, containment controls, and lifecycle
+automation to consume authoritative metadata.
+
+======================================================================
+V. Forward Proxy Model (Deep Operational Narrative)
+======================================================================
+
+Forward proxy is used when:
+
+- Accessing SaaS platforms
+- Delivering VDI services
+- Supporting bespoke services not compatible with reverse proxy patterns
+
+Forward proxy assumes outbound or mediated flows where destination-based ACL
+is sufficient for authorization control.
+
+The key identity principle:
+
+    mTLS = session attribution
+    ACL  = authorization boundary
+
+User Identity Collection:
+
+Tenant Owners provide a list of usernames (email addresses).
+
+These emails serve three purposes:
+
+1. Certificate SAN field value
+2. Certificate retrieval identifier
+3. Notification and lifecycle contact
+
+Certificate Flow:
+
+    User attempts connection
+            |
+            v
+    Traffic steered to fp.tenant_id.3plz.com
+            |
+    Does client present valid mTLS cert?
+        |                     |
+       Yes                   No
+        |                     |
+        v                     v
+   Proceed               Redirect to Cert Import Portal
+
+Cert Import Portal Flow:
+
+    User enters email
+            |
+            v
+    System verifies eligibility
+            |
+            v
+    Certificate delivered to browser
+            |
+            v
+    Retrieval process disabled for that username
+
+If certificate corruption occurs, user may request re-issuance via form.
+
+This ensures:
+
+- Identity binding to session
+- Controlled issuance lifecycle
+- No anonymous access
+
+Forward proxy does not assume application-level identity awareness.
+It overlays identity for inspection, monitoring, and containment.
+
+======================================================================
+VI. Reverse Proxy Model (Service-Instance Trust)
+======================================================================
+
+Reverse proxy is explicit mediation.
+
+Each instance is individually defined and individually trusted.
+
+If a tenant requests 50 reverse proxies, 50 identities are issued.
+
+Interactive Application Reverse Proxy:
+
+User identity (email) used for cert delivery.
+Client must present correct certificate for that proxy instance.
+
+API Reverse Proxy:
+
+Identity is system-level (FQDN of calling server).
+Certificate is packaged and delivered for installation.
+Email used only as distribution contact.
+
+Transactional Flow (Reverse Proxy):
+
+    Client -> rp1.tenant_id.3plz.com
+            |
+    Validate mTLS Certificate
+            |
+    Enforce Proxy Policy
+            |
+    Forward to internal workload
+
+Reverse proxy provides:
+
+- Explicit service boundary
+- Fine-grained inspection insertion
+- Isolation capability per instance
+
+======================================================================
+VII. SSH and SFTP Proxy Model (Interactive Containment)
+======================================================================
+
+Interactive channels carry elevated risk.
+
+Before session establishment:
+
+    User -> Tenant OTP Portal
+            |
+    Enter username (email)
+            |
+    Receive OTP
+            |
+    Open SSH/SFTP session
+            |
+    Authenticate using username + OTP
+
+This ensures:
+
+- Identity attribution
+- Step-up verification
+- Audit binding to tenant_id + user
+- Friction where risk is highest
+
+======================================================================
+VIII. Execution Governance (sudo + Identity Context)
+======================================================================
+
+Automation must not collapse separation of duties.
+
+Execution Model:
+
+Human: joe
+Service Identity: net_alloc
+Module Identities: script_a, script_b, net_imp, etc.
+
+If:
+
+    joe ∈ net_alloc_group
+
+Then:
+
+    sudo -u net_alloc ./net_alloc
+
+net_alloc may invoke:
+
+    sudo -u script_a ./script_a
+    sudo -u script_b ./script_b
+
+Each invocation logs:
+
+- invoking_user (joe)
+- effective_user (net_alloc/script_a)
+- tenant_id
+- action
+- timestamp
+
+No identity has ambient privilege.
+
+This is the enforcement backbone of governance.
+
+======================================================================
+IX. Tenant Lifecycle State Machine
+======================================================================
+
+States:
+
+    Requested
+        |
+    Approved
+        |
+    Provisioning
+        |
+    Active
+        |
+    Suspended
+        |
+    Retired
+
+Retirement may include:
+
+- Revocation of tenant Sub-CA
+- DNS depublication
+- Route withdrawal
+- Proxy certificate invalidation
+
+Tenant death is cryptographic.
+
+======================================================================
+X. Engineering Implications
+======================================================================
+
+Doc 4 is not a presentation. It is an operational constitution.
+
+It defines:
+
+- Identity as overlay, not assumption
+- Governance as prerequisite, not afterthought
+- Automation as controlled execution
+- DNS as metadata truth plane
+- PKI as tenant isolation boundary
+- Proxy instances as enforceable mediation layers
+
+It accepts enterprise heterogeneity and overlays structure without
+demanding application redesign.
+
+This is not theoretical Zero Trust.
+
+It is governed exposure in practice.
+
+======================================================================
+END OF DOCUMENT
+======================================================================

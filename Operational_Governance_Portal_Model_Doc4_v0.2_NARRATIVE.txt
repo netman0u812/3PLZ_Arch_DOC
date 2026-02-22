@@ -1,0 +1,33 @@
+OPERATIONAL GOVERNANCE AND PORTAL CONSUMPTION MODEL
+Document 4 — Narrative Draft v0.2
+
+This document explains why governance-driven service exposure requires a portal
+control plane, how tenants become trust domains, and how execution is enforced
+through identity-bound workflows.
+
+ASCII Flow 1: SNOW Approval -> Portal Instantiation
+
+[App Owner] -> (SNOW Request) -> [Governance Review] -> Approved
+                                        |
+                                        v
+                               [GW Admin Portal]
+                                        |
+                                Create Tenant_ID
+                                        |
+                         Allocate PKI + DNS + Service Patterns
+                                        |
+                                   Activate Services
+
+ASCII Flow 2: Tenant Trust Domain
+
+Root CA (3plz.com)
+        |
+        v
+Tenant Sub-CA (tenant_id.3plz.com)
+        |
+   +----+----+
+   |         |
+fp.tenant    rp1.tenant
+
+(Full narrative expansion to match Doc1 style to be continued.)
+

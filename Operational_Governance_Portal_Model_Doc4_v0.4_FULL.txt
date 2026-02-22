@@ -1,0 +1,361 @@
+
+OPERATIONAL GOVERNANCE AND PORTAL CONSUMPTION MODEL
+Document 4 — Exposure Governance Plane
+Version 0.4 FULL (Expanded Narrative + Visuals + Appendices)
+
+======================================================================
+SECTION I — GOVERNANCE PRECEDES AUTOMATION
+======================================================================
+
+Enterprises rarely fail because of missing technology. They fail because
+exposure scales faster than governance.
+
+The Third-Party Landing Zone (3PLZ) does not exist to provide tunnels,
+proxies, or certificates. It exists to reintroduce structure into an
+environment where connectivity historically preceded accountability.
+
+Automation without process creates velocity without control.
+Process without automation creates friction without scale.
+
+The Exposure Governance Plane (EGP) intentionally separates:
+
+    1. Authorization (business governance)
+    2. Instantiation (technical implementation)
+    3. Enforcement (runtime mediation)
+    4. Attribution (identity overlay)
+    5. Containment (inspection + isolation)
+
+This document explains how those layers integrate.
+
+======================================================================
+SECTION II — SYSTEM BOUNDARIES (WHY SNOW AND PORTAL ARE SEPARATE)
+======================================================================
+
+The system is deliberately split between:
+
+    SNOW (Governance Authorization Plane)
+    PORTAL (Execution + Control Plane)
+
+ASCII FLOW — GOVERNANCE TO EXECUTION
+
+    [Application Owner]
+            |
+            v
+     +----------------+
+     |   SNOW Intake  |
+     |  - AppID       |
+     |  - Owners      |
+     |  - Service Req |
+     +----------------+
+            |
+            v
+     +----------------+
+     | Governance     |
+     | Review         |
+     +----------------+
+            |
+        Approved
+            |
+            v
+     +----------------+
+     |  Portal (EGP)  |
+     |  Create Tenant |
+     +----------------+
+
+SNOW answers: "Is exposure permitted?"
+Portal answers: "How is exposure implemented and controlled?"
+
+This separation prevents operational convenience from bypassing risk review.
+
+======================================================================
+SECTION III — TENANT AS A TRUST DOMAIN (PKI + DNS + IDENTITY)
+======================================================================
+
+When a tenant is created, three systems change simultaneously:
+
+    1. Governance Registry (Portal SoT)
+    2. Cryptographic Hierarchy (PKI)
+    3. Authoritative Namespace (DNS)
+
+ASCII TRUST MODEL
+
+            Root CA (3plz.com)
+                    |
+                    v
+        +-------------------------+
+        |  Sub-CA: tenantA        |
+        |  tenantA.3plz.com       |
+        +-------------------------+
+               |           |
+               v           v
+        fp.tenantA     rp1.tenantA
+        rp2.tenantA    dns1.tenantA
+
+This creates cryptographic isolation between tenants.
+
+Tenant retirement = Sub-CA revocation.
+
+This is stronger than VLAN isolation because trust collapses cryptographically.
+
+======================================================================
+SECTION IV — FORWARD PROXY (DETAILED OPERATIONAL FLOW)
+======================================================================
+
+Forward Proxy Use Cases:
+- SaaS Access
+- VDI Mediation
+- Bespoke outbound services
+
+Forward proxy does not assume workload identity maturity.
+It overlays identity at the mediation point.
+
+Identity Principle:
+
+    mTLS = WHO
+    Destination ACL = WHERE
+
+User Identity Collection:
+
+Tenant Owner provides email addresses.
+Email serves as:
+
+- SAN value in certificate
+- Retrieval identifier
+- Notification channel
+
+ASCII FORWARD PROXY FLOW
+
+User Browser
+     |
+     v
++-----------------------------+
+| Traffic Steered to          |
+| fp.tenantA.3plz.com         |
++-----------------------------+
+     |
+     v
+Is mTLS Cert Present?
+     |                |
+    Yes              No
+     |                |
+     v                v
+ Proceed      Redirect to Cert Portal
+                    |
+                    v
+            Enter Email Address
+                    |
+                    v
+            Cert Issued to Browser
+                    |
+                    v
+            Retrieval Disabled
+
+Inspection then occurs on decrypted traffic per policy tier.
+
+Forward proxy is scalable because identity is user-scoped,
+authorization remains destination-scoped.
+
+======================================================================
+SECTION V — REVERSE PROXY (INSTANCE-SPECIFIC TRUST)
+======================================================================
+
+Reverse proxy is explicit service mediation.
+
+Each instance is uniquely defined.
+
+If 10 services are exposed, 10 reverse proxies exist,
+each with its own certificate identity.
+
+ASCII REVERSE PROXY FLOW
+
+Client ---> rp1.tenantA.3plz.com
+                |
+                v
+        Validate mTLS Cert
+                |
+                v
+        Apply Proxy Policy
+                |
+                v
+        Forward to Internal App
+
+Interactive Application Reverse Proxy:
+- User email used for cert delivery
+- Browser imports cert
+
+API Reverse Proxy:
+- FQDN of calling system used as identity
+- Certificate packaged for installation
+- Email used only as distribution channel
+
+Reverse proxy allows per-service containment and inspection policy tuning.
+
+======================================================================
+SECTION VI — SSH AND SFTP PROXY (INTERACTIVE CONTROL)
+======================================================================
+
+Interactive sessions introduce elevated risk.
+
+Before session:
+
+User -> OTP Portal
+        |
+        v
+Enter Email
+        |
+        v
+Receive OTP
+        |
+        v
+SSH/SFTP Login (email + OTP)
+
+ASCII INTERACTIVE FLOW
+
+   User
+     |
+     v
++------------+
+| OTP Portal |
++------------+
+     |
+     v
+  OTP Issued
+     |
+     v
+ SSH Gateway
+     |
+     v
+ Tenant Workload
+
+This ensures attribution before interactive channel establishment.
+
+======================================================================
+SECTION VII — EXECUTION GOVERNANCE (SUDO + GROUP LATTICE)
+======================================================================
+
+Automation is constrained by identity-bound execution.
+
+Entities:
+
+Human: joe
+Control Identity: net_alloc
+Modules: script_a, script_b, net_imp, dns_admin
+
+Authorization:
+
+joe ∈ net_alloc_group
+
+Execution:
+
+sudo -u net_alloc ./net_alloc
+
+net_alloc may execute:
+
+sudo -u script_a ./script_a
+
+ASCII EXECUTION CHAIN
+
+ joe
+  |
+  v
+ net_alloc (dispatcher)
+  |
+  +--> script_a
+  +--> script_b
+  +--> net_imp
+
+Each boundary requires group membership.
+
+No identity holds universal privilege.
+
+======================================================================
+SECTION VIII — TENANT LIFECYCLE STATE MACHINE
+======================================================================
+
+ASCII STATE MODEL
+
+ Requested
+     |
+ Approved
+     |
+ Provisioning
+     |
+ Active
+     |
+ Suspended
+     |
+ Retired
+
+Retired state may trigger:
+
+- Sub-CA revocation
+- DNS removal
+- Route withdrawal
+- Certificate invalidation
+
+======================================================================
+APPENDIX A — RBAC ROLE MATRIX
+======================================================================
+
+Role: GW Admin
+  - Create tenant
+  - Allocate infrastructure
+  - Manage all service patterns
+  - Access all tenants
+
+Role: Tenant Owner
+  - Manage approved service patterns
+  - Add/remove remote users
+  - Assign delegates
+  - View telemetry
+
+Role: Tenant Delegate (Service Scoped)
+  - Manage specific service class
+  - View service telemetry
+  - Cannot modify other classes
+
+Role: Audit / Viewer
+  - Read-only telemetry
+  - No configuration rights
+
+======================================================================
+APPENDIX B — EXECUTION GROUP MATRIX
+======================================================================
+
+Group: net_alloc_group
+  - May sudo to net_alloc
+
+Group: script_a_group
+  - May sudo to script_a
+
+Group: net_imp_group
+  - May sudo to net_imp
+
+Control Identity Membership:
+
+net_alloc ∈ script_a_group
+net_alloc ∈ script_b_group
+
+This enforces modular privilege.
+
+======================================================================
+APPENDIX C — SNOW INTAKE SCHEMA
+======================================================================
+
+Required Fields:
+
+- Application ID
+- Manager Name
+- SVP Name
+- Tenant Owner 1 (email)
+- Tenant Owner 2 (email)
+- Requested Service Patterns
+- Delegate Assignments per Pattern
+- Quantity per Pattern
+- Business Justification
+
+Approval Required Before Portal Instantiation.
+
+======================================================================
+END OF DOCUMENT
+======================================================================
