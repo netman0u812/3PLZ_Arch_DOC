@@ -1,0 +1,99 @@
+Appendix B Identity Brokerage Ontology
+
+Identity brokerage emerges when adjacency ceases to be a reliable trust
+signal. Where network enforcement governs flows, brokerage governs
+admission. Its primitive is the authenticated session. Its authority is
+the identity assertion. Its boundary is the application front door.
+
+At its most basic level, brokerage answers a different question than the
+firewall:
+
+May this subject initiate a session with this resource?
+
+This is not trivial progress. It replaces spatial inference with
+declarative identity. The subject is authenticated before the connection
+is established. The perimeter becomes logical rather than topological.
+
+Why did this model emerge?
+
+Because mobility dissolved physical trust boundaries. Laptops moved.
+Remote users became normal. Cloud workloads blurred data center walls.
+If location no longer implied trust, something else had to.
+
+Identity filled the vacuum.
+
+But we must be precise here.
+
+Brokerage does not remove the network. It front-loads enforcement into a
+transaction boundary. It shifts control from flow establishment to
+session establishment.
+
+This distinction matters.
+
+A firewall allows or denies flows based on address, port, and state. A
+broker allows or denies sessions based on authenticated identity and
+policy.
+
+The broker appears more advanced because it speaks in the language of
+users and applications rather than subnets and ports.
+
+But we must ask:
+
+What does it actually know?
+
+And here the first recursive layer emerges.
+
+Most brokerage systems consume identity from existing directories —
+Active Directory users, service accounts, machine identities, federated
+tokens. They rarely establish a new authority structure for the exposure
+use case. Instead, they ride along on existing identity infrastructure.
+
+This introduces a hidden limitation.
+
+If the identity primitive is not purpose-built for the exposure context,
+then the broker’s authority is derivative. It authenticates what the
+enterprise already defined. It does not redefine identity for exposure
+semantics.
+
+Why is this a limitation?
+
+Because enterprise identity systems were not built to model
+transaction-specific authority in exposure scenarios. They were built
+for workforce authentication. They were built for internal role access.
+They were not built to express “this external partner may perform
+exactly these bounded actions through this surrogate channel under these
+contextual constraints.”
+
+The broker therefore authenticates admission.
+
+It rarely governs transaction semantics.
+
+And this exposes the core contradiction:
+
+Brokerage is transactional at the session boundary, but not necessarily
+transactional within the application domain.
+
+Once admitted, the application governs behavior. If the application is
+legacy, poorly instrumented, or overly permissive, brokerage cannot
+compensate.
+
+Counterargument:
+
+Some will argue that contextual signals — device posture, behavioral
+scoring, risk engines — close this gap.
+
+They help.
+
+But they operate at the session envelope. They do not reinterpret
+application-level business logic unless that logic is externally
+observable and instrumented.
+
+The institutional implication is significant:
+
+Organizations often adopt brokerage believing they have eliminated
+network risk. In reality, they have moved enforcement forward but have
+not necessarily deepened semantic visibility.
+
+Brokerage is evolution.
+
+It is not transcendence.

@@ -1,0 +1,183 @@
+Appendix B Identity Brokerage: Governing Admission
+
+Identity brokerage moves enforcement to the session boundary. Before
+establishing connectivity to a protected resource, a subject must
+authenticate. Policy evaluates attributes associated with that identity.
+
+Technically, brokerage systems operate by:
+
+Intercepting connection attempts
+
+Redirecting unauthenticated sessions to identity providers
+
+Validating credentials via SAML, OIDC, Kerberos, or similar mechanisms
+
+Issuing tokens or session credentials
+
+Forwarding traffic only after successful validation
+
+This model removes implicit trust in network adjacency.
+
+However, its authority primitive is the authenticated subject, not the
+transaction within the application.
+
+Consider a broker granting access to an internal web application. The
+broker confirms:
+
+The user is authenticated.
+
+The device meets posture requirements.
+
+The session complies with policy.
+
+Once the session is established, the broker becomes largely transparent
+unless additional inspection layers are present.
+
+If the application authorizes excessive data access based on internal
+role misconfiguration, the broker does not inherently correct it.
+
+Brokerage can be enhanced with contextual signals—geolocation,
+behavioral risk scoring, device fingerprinting—but these remain
+admission-centric controls.
+
+The distinction is important:
+
+Admission control reduces exposure surface. It does not redefine
+application semantics.
+
+Therefore:
+
+Brokerage is evolution beyond topology. It is not replacement for
+semantic governance.
+
+Appendix C Abstraction: Governing Delivery
+
+Edge abstraction platforms and service fabrics decouple physical
+topology from logical exposure. Services are registered in control
+planes. Connectivity is orchestrated through overlay networks. Policies
+are centrally defined and distributed.
+
+Technically, abstraction relies on:
+
+Distributed edge nodes
+
+Encrypted overlay tunnels
+
+Centralized policy orchestration
+
+Identity-aware routing constructs
+
+API-driven service registration
+
+This reduces operational complexity. It allows rapid exposure of
+services without deep network reconfiguration.
+
+But abstraction assumes that:
+
+The service being exposed is well-defined.
+
+Ownership is clear.
+
+Access requirements are documented.
+
+Lifecycle management exists upstream.
+
+Abstraction simplifies plumbing.
+
+It does not inherently create governance.
+
+When upstream discipline is absent, abstraction accelerates deployment
+velocity while preserving ambiguity.
+
+Therefore:
+
+Abstraction is a delivery optimizer. It is not an exposure governance
+mechanism.
+
+Appendix D Mediation: Surrogate Transaction Boundaries
+
+Mediation introduces proxy layers that decrypt, inspect, and re-encrypt
+traffic between exposure domains. This enables enforcement and
+observation at a boundary independent of application internals.
+
+Technically, mediation involves:
+
+Terminating TLS connections at controlled proxy nodes
+
+Validating client certificates (mTLS)
+
+Injecting exposure-scoped identity attributes
+
+Logging transaction metadata
+
+Applying content inspection policies
+
+Re-encrypting traffic toward backend systems
+
+Forward proxies govern outbound requests. Reverse proxies govern inbound
+requests. SSH and SFTP proxies enforce session-bound identity and
+multi-factor controls.
+
+By terminating encrypted sessions, mediation converts opaque traffic
+into observable transactions. It enables policy enforcement based on
+identity attributes, not merely network attributes.
+
+It does not rewrite application logic. It provides a surrogate
+enforcement surface when application logic cannot be modified.
+
+This introduces operational overhead—certificate issuance, revocation,
+namespace management—but it transforms exposure from blind routing into
+inspectable state.
+
+Therefore:
+
+Mediation is compensatory architecture for brownfield systems. It is not
+a substitute for native application security. It is an enforcement
+amplifier.
+
+Appendix E Exposure-Scoped Identity and Namespace Authority
+
+General-purpose identity systems authenticate subjects for
+organizational participation. Exposure relationships require scoped
+authority.
+
+Technically, exposure-scoped authority can be implemented through:
+
+Dedicated certificate hierarchies per exposure domain
+
+Subordinate certificate authorities representing tenants
+
+Unique namespaces (e.g., tenant.example.com)
+
+Proxy certificates tied to those namespaces
+
+User or system certificates embedding exposure identifiers in SAN fields
+
+DNS as authoritative registry for exposure metadata (including TXT
+records)
+
+This structure separates workforce identity from exposure identity.
+
+A user authenticated internally does not automatically possess authority
+in every exposure domain. Authority must be explicitly granted within
+the tenant namespace.
+
+This allows:
+
+Revocation independent of internal directory lifecycle
+
+Clear scoping of exposure privileges
+
+Cryptographic binding of identity to specific transaction surfaces
+
+Independent audit of exposure relationships
+
+DNS becomes more than resolution; it becomes declarative truth.
+Certificate chains become more than encryption; they become authority
+boundaries.
+
+This model supports governance because it ties identity to declared
+exposure objects.
+
+Without scoping, identity drifts. With scoping, authority becomes
+bounded.

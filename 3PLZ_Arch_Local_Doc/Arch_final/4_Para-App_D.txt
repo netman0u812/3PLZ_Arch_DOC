@@ -1,0 +1,98 @@
+Appendix D
+Security Paradigm 4 – Deterministic Lifecycle Governance
+D.1 Conceptual Foundation
+
+Security failures accumulate over time.
+
+Provisioning is engineered.
+Removal is neglected.
+
+Lifecycle asymmetry is the primary driver of exposure sprawl.
+
+Reversibility must be treated as a security primitive.
+
+D.2 Failure Analysis of Legacy Models
+
+Common failure modes include:
+
+Orphaned tunnels.
+
+Residual firewall rules.
+
+Stale route advertisements.
+
+Dormant but reachable vendor connections.
+
+No deterministic teardown mechanism.
+
+Exposure persists because removal is operationally risky.
+
+D.3 Structural Requirements
+
+Lifecycle governance requires:
+
+Declarative configuration state.
+
+Idempotent provisioning.
+
+Deterministic teardown.
+
+Expiration enforcement.
+
+Renewal reauthorization.
+
+Audit logging of lifecycle transitions.
+
+D.4 Invariants
+
+Invariant D1: Provisioning must be idempotent.
+
+Invariant D2: Removal must eliminate all routing, mediation, identity, and inspection constructs.
+
+Invariant D3: Exposure must not persist beyond declared lifecycle without reauthorization.
+
+Invariant D4: Lifecycle state must be auditable and reconstructable from system state.
+
+D.5 Implementation Characteristics
+
+Declarative configuration files
+
+State reconciliation engines
+
+Teardown scripts
+
+Tenant-specific config isolation
+
+Expiration timers
+
+Audit event logging
+
+D.6 Validation Criteria
+
+An implementation satisfies Deterministic Lifecycle Governance if:
+
+Deleting a Tenant removes all artifacts.
+
+Re-creating a Tenant produces identical deterministic state.
+
+Expired Tenants automatically suspend.
+
+Lifecycle logs match system state.
+
+D.7 RC1 Validation
+
+RC1 implemented idempotent provisioning and deterministic teardown routines.
+
+Tenant removal removed:
+
+Tunnels
+
+Routing entries
+
+Mediation proxies
+
+Identity artifacts
+
+Inspection hooks
+
+This demonstrated reversibility as structural reality, not aspiration.

@@ -1,0 +1,150 @@
+Why Excellence Is Rare in Enterprise Security
+
+The uncomfortable truth is this:
+
+Enterprises do not choose between good and bad architectures.
+
+They choose between constrained paths.
+
+And the constraints are not technical.
+
+They are institutional.
+
+Let’s walk the dialectic gently.
+
+Why don’t enterprises just rebuild applications to be BeyondCorp-native?
+
+Because applications are capital artifacts.
+
+They were built to serve a business function at a point in time under a set of assumptions. The cost of rebuilding them is not the cost of writing code. It is the cost of:
+
+Revalidating business logic
+
+Requalifying regulatory controls
+
+Retraining users
+
+Reintegrating dependent systems
+
+Accepting operational risk during transition
+
+Excellence in application-native zero trust requires:
+
+Context-rich identity plumbing
+
+Transaction-aware authorization
+
+Message-level enforcement
+
+Continuous posture validation
+
+Event-driven risk telemetry
+
+Most enterprise applications were not written with those primitives.
+
+Rewriting them is not evolution.
+
+It is reconstruction.
+
+Enterprises are optimized to avoid reconstruction.
+
+Why not accept brokerage as excellence?
+
+Because brokerage is admission control.
+
+It answers: “May you begin?”
+
+It rarely answers: “May you perform this specific action inside this application under these contextual constraints?”
+
+Brokerage is excellent at eliminating adjacency risk.
+
+It is not inherently excellent at eliminating transaction risk.
+
+So brokerage is progress.
+
+But it is not completeness.
+
+Why not rely purely on network enforcement?
+
+Because network enforcement governs topology.
+
+It can constrain exposure domains.
+
+It cannot interpret intent.
+
+A Palo Alto firewall can decrypt traffic.
+
+But unless the application exposes semantic markers, it is still pattern matching against protocol behavior.
+
+It is still inferring intent from structure.
+
+It is not participating in business logic.
+
+So network enforcement can reduce gross risk.
+
+It cannot express business authorization semantics.
+
+So what is excellence?
+
+Excellence would be:
+
+Applications built with first-class identity authority
+
+Contextual transaction authorization embedded natively
+
+Independent exposure-scoped identity
+
+Transparent governance instrumentation
+
+Formal lifecycle management of exposure relationships
+
+Automated, auditable, self-documenting processes
+
+That is excellence.
+
+But excellence requires greenfield authority.
+
+Most enterprises are brownfield.
+
+The Real Limitation of the Options
+
+Now we make the important move.
+
+Each option is not limited because the vendor is weak.
+
+Each option is limited because of what layer it governs.
+
+Cisco / Palo Alto — govern topology and traffic patterns.
+Brokerage platforms — govern admission.
+Edge abstraction — governs service delivery.
+Augmentation / mediation — governs surrogate transaction boundaries.
+
+None of them rewrite the application.
+
+And unless the application changes, there is a ceiling.
+
+That ceiling is not technical capability.
+
+It is semantic authority.
+
+So Why Accept Less?
+
+Because architecture is not about purity.
+
+It is about trajectory.
+
+The question is not:
+
+“Which solution is perfect?”
+
+The question is:
+
+“Which solution moves us closer to structured, governable, inspectable exposure without collapsing the enterprise?”
+
+Excellence is not binary.
+
+It is asymptotic.
+
+We approach it.
+
+We rarely reach it.

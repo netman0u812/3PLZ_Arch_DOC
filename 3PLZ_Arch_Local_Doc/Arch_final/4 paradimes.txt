@@ -1,0 +1,71 @@
+1. Structural Containment (Isolation as Topology)
+
+Security is enforced by structure, not policy layering.
+
+Isolation is embedded in routing and forwarding context.
+
+Tenants do not share adjacency domains.
+
+Absence of mediation equals absence of reachability.
+
+Containment survives operator error and scale.
+
+This is the shift away from flat network + firewall rules toward structural segmentation.
+
+This paradigm answers:
+“How do we prevent implicit trust propagation?”
+
+2. Mediated Capability Exposure (Adjacency → Capability)
+
+Security is enforced by mediation, not subnet reachability.
+
+No direct routed exposure of internal networks.
+
+All flows pass through enforcement constructs.
+
+Destination scope is allow-listed.
+
+Directionality is enforced.
+
+Protocol semantics are constrained.
+
+This is the shift from network adjacency to capability adjacency.
+
+This paradigm answers:
+“How do we reduce blast radius even if transport is secure?”
+
+3. Identity-Bound Authorization (Trust Anchored in Identity)
+
+Security is enforced at the subject level, not location level.
+
+Identity is cryptographically validated.
+
+Identity is tenant-scoped.
+
+Access is bound to declared capability.
+
+Revocation is independent of routing topology.
+
+This is the shift away from “source IP = trust” thinking.
+
+This paradigm answers:
+“How do we ensure accountability and revocability?”
+
+4. Deterministic Lifecycle Governance (Reversibility as Control)
+
+Security is enforced over time, not just at creation.
+
+Provisioning is declarative.
+
+Removal is deterministic.
+
+No residual artifacts.
+
+Expiration requires renewal.
+
+Extensions inherit containment.
+
+This is the shift from static integration to managed exposure.
+
+This paradigm answers:
+“How do we prevent accumulation from becoming systemic risk?”

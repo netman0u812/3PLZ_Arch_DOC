@@ -1,0 +1,354 @@
+RC1 – Functional and Technical Decomposition
+
+RC1 was not a product.
+It was a structural proof-of-architecture implementation of the governed exposure model.
+
+It validated that:
+
+Tenant isolation can be structural.
+
+Mediation can replace adjacency.
+
+Lifecycle can be deterministic.
+
+Extensibility can inherit containment.
+
+Inspection can be deterministic.
+
+Transport can be subordinate to exposure.
+
+Governance constructs can map to technical constructs.
+
+Below is the functional and technical mapping.
+
+1. Tenant Instantiation Framework
+Function Delivered
+
+RC1 implemented the concept of a Tenant as an atomic exposure unit.
+
+Each Tenant represented:
+
+A third-party entity
+
+A bounded routing context
+
+Defined service capabilities
+
+Lifecycle-bound state
+
+Isolated enforcement constructs
+
+Technical Components
+
+Per-tenant routing domains (VRF-like isolation)
+
+Per-tenant forwarding contexts
+
+Tenant-specific IP addressing domains
+
+Tenant-specific enforcement chains
+
+Tenant-specific mediation proxies
+
+Tenant lifecycle configuration state
+
+Architectural Invariant Validated
+
+Isolation is structural, not firewall-dependent.
+
+RC1 ensured that:
+
+No two tenants shared adjacency.
+
+No tenant inherited reachability to internal networks.
+
+Removing a tenant removed its entire routing and mediation context.
+
+2. Secure Transport Layer
+Function Delivered
+
+RC1 implemented encrypted third-party ingress using standardized transport constructs.
+
+Transport was:
+
+Bound to a tenant.
+
+Restricted to declared endpoints.
+
+Isolated from core routing domains.
+
+Technical Components
+
+Per-tenant encrypted tunnels (e.g., IPsec / WireGuard style constructs)
+
+Route filtering at tunnel boundaries
+
+Explicit prefix allow-lists
+
+No automatic route import into core routing table
+
+Architectural Invariant Validated
+
+Transport does not equal trust.
+
+Encrypted connectivity alone did not grant access to internal networks.
+
+Mediation constructs were required to complete flows.
+
+3. Dual-Proxy Mediation Model
+
+This was the most important architectural function.
+
+Function Delivered
+
+RC1 implemented proxy-to-proxy mediation between:
+
+Tenant ingress layer
+
+Internal capability layer
+
+This replaced routed adjacency with mediated capability exposure.
+
+Technical Components
+
+Tier-1 tenant proxy (mTLS / identity enforcement)
+
+Tier-2 internal proxy (core VRF separation)
+
+Service-specific allow-lists
+
+Destination constraint enforcement
+
+Protocol mediation (HTTP/S, file transfer, etc.)
+
+Traffic path:
+
+External → Tenant ingress → Tenant mediation → Internal mediation → Application
+
+No direct routed path existed.
+
+Architectural Invariants Validated
+
+Capability adjacency replaces subnet adjacency.
+
+Directionality is enforced.
+
+Destination scope is enforced.
+
+Identity can be bound to mediation context.
+
+This was the core structural shift.
+
+4. Identity Binding
+Function Delivered
+
+RC1 enforced identity at mediation points.
+
+Access decisions were not based solely on source IP.
+
+Technical Components
+
+mTLS per-tenant identity validation
+
+Certificate-based subject validation
+
+Per-tenant trust anchors
+
+Identity-to-capability binding
+
+Architectural Invariant Validated
+
+Identity is bound to exposure context.
+
+A valid tunnel without valid identity did not grant access.
+
+This prevented:
+
+Implicit IP-based trust.
+
+Cross-tenant credential replay.
+
+5. Deterministic Inspection Points
+Function Delivered
+
+RC1 embedded inspection/export capability within tenant boundaries.
+
+Inspection was:
+
+Tenant-scoped.
+
+Attached at defined mediation layers.
+
+Optional but deterministic.
+
+Technical Components
+
+Traffic mirroring hooks
+
+Export pipelines
+
+Inspection addon modules
+
+Policy-controlled activation
+
+Architectural Invariant Validated
+
+Visibility does not alter routing semantics.
+
+Inspection occurred without bypassing containment.
+
+6. Lifecycle Automation
+Function Delivered
+
+RC1 implemented idempotent provisioning and teardown.
+
+Tenants could be:
+
+Created
+
+Validated
+
+Suspended
+
+Deleted
+
+Deletion removed:
+
+Tunnels
+
+Routes
+
+Proxies
+
+Identity stores
+
+Inspection hooks
+
+Technical Components
+
+Declarative configuration templates
+
+Lifecycle orchestration scripts
+
+Idempotent state application
+
+Deterministic teardown routines
+
+Architectural Invariant Validated
+
+Exposure is reversible.
+
+No residual routing artifacts remained.
+
+This directly addressed the historical accumulation problem.
+
+7. Guardrail-Enforced Extensibility
+Function Delivered
+
+RC1 supported extension modules (inspection addons, SSH proxy layers, etc.) without bypassing core enforcement planes.
+
+Technical Components
+
+Hook/dispatch framework
+
+Tenant-scoped extension loading
+
+Controlled invocation model
+
+Isolation inheritance
+
+Architectural Invariant Validated
+
+Extensions inherit containment.
+
+No extension could:
+
+Create new adjacency
+
+Escape tenant context
+
+Bypass mediation
+
+8. Administrative Plane Separation
+Function Delivered
+
+RC1 separated:
+
+Tenant data plane
+
+Management/control plane
+
+Technical Components
+
+Separate VRF for management
+
+Restricted administrative interfaces
+
+No tenant-to-admin routing path
+
+Hardened service access controls
+
+Architectural Invariant Validated
+
+Tenant compromise does not equal platform compromise.
+
+9. Capacity & Placement Governance
+Function Delivered
+
+RC1 included performance monitoring and eligibility checks before instantiation.
+
+Technical Components
+
+Resource telemetry (CPU, memory, session count)
+
+Polling and reporting utilities
+
+Preflight validation scripts
+
+Capacity gating logic
+
+Architectural Invariant Validated
+
+Scale cannot degrade containment guarantees.
+
+Oversubscription does not silently erode enforcement integrity.
+
+RC1 Summary – What It Proved
+
+RC1 demonstrated that:
+
+Structural tenant isolation is achievable.
+
+Mediation can replace routed adjacency.
+
+Transport can be subordinate.
+
+Identity can be tenant-scoped.
+
+Inspection can be deterministic.
+
+Lifecycle can be idempotent.
+
+Extensions can inherit containment.
+
+Control planes can remain segregated.
+
+Governance constructs can map directly to routing constructs.
+
+It proved the architecture is implementable.
+
+Not theoretical.
+
+Implementable.
+
+The Critical Insight
+
+RC1 did not just build a gateway.
+
+It redefined what a third-party connection is:
+
+Not a tunnel.
+Not a firewall rule.
+Not a route.
+
+But a bounded, lifecycle-managed, mediated exposure domain.

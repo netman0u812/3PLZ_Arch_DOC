@@ -1,0 +1,56 @@
+Edge Abstraction Ontology
+
+Edge abstraction is a different philosophical move.
+
+Where brokerage redefines admission, abstraction redefines the network
+itself. It virtualizes adjacency. It dissolves physical topology into
+programmable overlays. It treats the enterprise as a collection of
+identity-addressable services reachable through a global fabric.
+
+Its primitive is the service endpoint.
+
+Its authority is the control plane.
+
+Its boundary is the abstraction layer itself.
+
+Edge abstraction asks:
+
+Can we eliminate the enterprise network as a concept and replace it with
+a globally reachable service fabric?
+
+This is powerful.
+
+It decouples physical infrastructure from logical exposure. It allows
+services to exist independently of data center geography. It promises
+operational simplicity by collapsing topology into policy.
+
+But again, recursion reveals the limitation.
+
+Abstraction simplifies delivery. It does not inherently impose
+governance.
+
+If the underlying service relationships are undefined, abstraction
+merely globalizes disorder.
+
+If identity authority is derivative rather than scoped, abstraction
+amplifies trust assumptions.
+
+The failure condition of abstraction is not technical. It is
+institutional. It assumes that governance exists upstream. It assumes
+that service owners understand exposure semantics. It assumes that
+identity systems are mature.
+
+Without those, abstraction accelerates entropy.
+
+Its economic appeal is obvious:
+
+Operational outsourcing. Reduced infrastructure management.
+Consumption-based scaling.
+
+Its institutional risk is less obvious:
+
+Control plane centralization without exposure governance discipline.
+
+Abstraction can remove friction.
+
+It can also remove friction too early.

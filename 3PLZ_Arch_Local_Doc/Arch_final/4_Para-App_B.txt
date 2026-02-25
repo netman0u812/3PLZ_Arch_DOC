@@ -1,0 +1,96 @@
+Appendix B Security Paradigm 2 – Mediated Capability Exposure B.1
+Conceptual Foundation
+
+Network adjacency is coarse.
+
+Once a subnet is reachable, every host in that subnet becomes
+potentially reachable unless further constrained.
+
+Mediated capability exposure replaces subnet adjacency with service
+adjacency.
+
+External actors do not receive network reachability. They receive access
+to explicitly declared capabilities.
+
+B.2 Failure Analysis of Legacy Models
+
+Legacy VPN models grant network extension.
+
+Common failure modes include:
+
+Lateral exploration inside internal networks.
+
+Expansion of allowed ports over time.
+
+Overbroad firewall rules to “make it work.”
+
+Implicit trust of all hosts within reachable subnets.
+
+Encryption does not reduce blast radius. It only protects data in
+transit.
+
+B.3 Structural Requirements
+
+Mediation requires:
+
+Proxy or enforcement layers between tenants and internal systems.
+
+Explicit allow-lists of endpoints.
+
+Directional enforcement.
+
+Protocol constraint enforcement.
+
+Prevention of arbitrary subnet exposure.
+
+B.4 Invariants
+
+Invariant B1: No Tenant may access internal subnets directly.
+
+Invariant B2: All permitted flows must traverse mediation constructs.
+
+Invariant B3: Destination scope must be explicitly declared and
+enforced.
+
+Invariant B4: Directionality must be explicitly constrained.
+
+B.5 Implementation Characteristics
+
+Common technical realizations include:
+
+Proxy-to-proxy architectures.
+
+Application-layer mediation.
+
+Layer-7 enforcement.
+
+Destination allow-lists.
+
+No direct route export to internal subnets.
+
+The architecture must ensure that mediation is unavoidable.
+
+B.6 Validation Criteria
+
+An implementation satisfies Mediated Capability Exposure if:
+
+No direct routed path exists from Tenant to internal subnet.
+
+All flows pass through enforcement points.
+
+Removing mediation constructs eliminates capability access.
+
+Adding new capability requires explicit configuration.
+
+B.7 RC1 Validation
+
+RC1 implemented a dual-proxy mediation model:
+
+Tier-1 tenant ingress.
+
+Tier-2 internal mediation.
+
+No direct subnet adjacency.
+
+This demonstrated that network adjacency can be replaced with capability
+mediation at scale.

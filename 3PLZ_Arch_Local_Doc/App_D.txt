@@ -1,0 +1,58 @@
+Appendix D Mediation and Augmentation Ontology
+
+Mediation and augmentation take a different path.
+
+Rather than eliminate the network or front-load identity exclusively,
+mediation inserts an interpretable layer between exposure domains. It
+acknowledges that legacy applications cannot be rewritten to embed full
+contextual authorization semantics. It acknowledges that network
+enforcement cannot interpret transactions. It acknowledges that
+brokerage alone cannot see inside the session.
+
+So it introduces a surrogate.
+
+Its primitive is the proxy.
+
+Its authority is certificate-bound identity scoped to the exposure
+domain.
+
+Its boundary is namespace.
+
+Mediation does not attempt to remove the network. It overlays identity
+into the transport path. It decrypts, inspects, constrains, and
+re-encrypts. It creates a surrogate transaction boundary even when the
+application cannot.
+
+Why is this necessary?
+
+Because enterprise applications were written under adjacency
+assumptions. They lack contextual enforcement depth. They cannot be
+easily rewritten. The cost of reconstruction is prohibitive. The
+business cannot pause operations for architectural purity.
+
+Mediation therefore acts as a compensatory structure.
+
+It overlays identity where none existed. It constrains transactions
+where applications are permissive. It enables inspection where network
+enforcement cannot interpret.
+
+Its counterargument is immediate:
+
+Does this not increase complexity?
+
+Yes.
+
+But complexity already exists. Mediation does not create complexity. It
+surfaces it.
+
+Another counterargument:
+
+Does this not duplicate identity systems?
+
+It can.
+
+Unless identity is scoped explicitly to exposure domains using
+independent certificate hierarchies, namespace binding, and authority
+segmentation.
+
+And here we approach the deepest layer.

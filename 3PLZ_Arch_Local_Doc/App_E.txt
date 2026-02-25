@@ -1,0 +1,40 @@
+Appendix E Identity as Authority and Exposure-Scoped Trust Domains
+
+Identity is often treated as a directory attribute. This is a category
+error.
+
+Identity, in the context of exposure governance, is authority.
+
+Authority must be scoped.
+
+Authority must be bound.
+
+Authority must be verifiable independent of application context.
+
+When identity is consumed from a general directory without scoping, it
+inherits all the ambiguities of that directory.
+
+When identity is established via certificate hierarchies scoped to
+tenant domains, authority becomes contextual.
+
+For example:
+
+tenant_id.3plz.com as namespace Subordinate CA per tenant Forward proxy
+certificate fp.tenant_id.3plz.com Reverse proxy certificate
+rpX.tenant_id.3plz.com User certificates bound to email identity in SAN
+DNS as authoritative namespace and metadata plane
+
+This is not aesthetic design.
+
+It is authority segmentation.
+
+The certificate becomes something the user has. The namespace becomes
+something the tenant owns. The proxy becomes a transaction surrogate.
+
+Now exposure can be governed without modifying the legacy application.
+
+This is not perfect identity maturity.
+
+It is exposure-scoped authority.
+
+And that distinction matters.

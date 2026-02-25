@@ -1,0 +1,62 @@
+Appendix A
+Security Paradigm 1 – Structural Containment
+A.1 Conceptual Foundation
+
+Structural containment asserts that isolation must be embedded in topology rather than inferred from policy.
+
+Traditional enterprise networks assume shared adjacency. Segmentation is then layered through firewall rules, ACLs, and filtering policies. This approach treats separation as a configuration artifact rather than a structural property.
+
+Structural containment inverts that assumption.
+
+Isolation becomes the default state.
+Adjacency becomes an explicit construction.
+
+The paradigm requires that the absence of mediation equals the absence of reachability.
+
+Containment is not something that can be misconfigured into existence.
+It must require deliberate architectural action to create exposure.
+
+A.2 Failure Analysis of Legacy Models
+
+Flat segmentation models fail in predictable ways:
+
+Policy Accretion
+As integrations grow, rule sets expand. Over time, rule interactions become opaque. Assurance depends on policy audits rather than architecture.
+
+Route Leakage
+Shared routing domains allow prefix propagation errors to create unintended adjacency.
+
+Shared Failure Domains
+When tenants share forwarding planes, compromise or misconfiguration in one domain can affect another.
+
+Administrative Error Sensitivity
+Minor mistakes can produce cross-domain exposure.
+
+The failure is not that firewalls are ineffective.
+The failure is that policy over shared adjacency scales poorly.
+
+A.3 Structural Requirements
+
+Structural containment requires:
+
+Per-tenant routing domains.
+
+Per-tenant forwarding contexts.
+
+No shared adjacency planes.
+
+Explicit mediation constructs to bridge domains.
+
+Deterministic route import/export filtering.
+
+Containment must survive:
+
+Tenant count growth.
+
+Policy growth.
+
+Operator variability.
+
+Infrastructure scaling.
+
+RC1 demonstrated that isolation can be architectural rather than policy-dependent.

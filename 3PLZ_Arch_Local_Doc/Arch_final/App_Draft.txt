@@ -1,0 +1,372 @@
+Appendix A – Structural Isolation: Failure Modes and Functional
+Invariants A.1 Why Flat Segmentation Fails at Scale
+
+Traditional enterprise network design assumes shared adjacency with
+segmentation enforced through policy. VLANs, VRFs, firewall rule sets,
+and ACLs are layered over a common routing substrate. In small-scale
+environments, this model is manageable. At enterprise scale with dozens
+or hundreds of third-party integrations, it becomes structurally
+fragile.
+
+Flat adjacency architectures fail for three primary reasons:
+
+Policy Complexity Grows Faster Than Assurance Each new integration adds
+rules. Each exception adds conditional logic. Over time, firewall
+policies become asymmetric, overlapping, and difficult to reason about.
+Assurance becomes dependent on configuration review rather than
+architectural containment.
+
+Route Inheritance Becomes Implicit When routing domains are shared,
+route import/export rules become a source of adjacency leakage. Even
+minor configuration drift can introduce unintended reachability.
+
+Blast Radius Expands With Density When tenants coexist within shared
+adjacency domains, compromise of one tenant can potentially expose
+lateral paths into others, especially where shared inspection or routing
+planes exist.
+
+The core issue is this: segmentation implemented through filtering over
+shared adjacency is probabilistic at scale.
+
+Structural containment must replace policy-dependent separation.
+
+A.2 Structural Isolation as an Architectural Invariant
+
+Structural isolation requires that:
+
+Each Tenant exists within a discrete forwarding and routing context.
+
+No Tenant inherits adjacency to another by default.
+
+Internal enterprise networks are not reachable without explicit
+mediation constructs.
+
+Route propagation boundaries are deterministic and constrained.
+
+The isolation invariant can be stated precisely:
+
+If no mediation construct exists between Tenant A and Tenant B, then no
+packet originating in A can reach B.
+
+This must hold regardless of:
+
+Number of tenants.
+
+Policy volume.
+
+Operator variability.
+
+Routing table scale.
+
+Isolation must be topology-enforced, not policy-hoped.
+
+A.3 Validation Criteria
+
+An implementation satisfies structural isolation if:
+
+Removal of mediation constructs immediately eliminates reachability.
+
+No shared routing context exists where tenants can observe each other’s
+routes.
+
+Administrative error in one tenant cannot introduce adjacency to
+another.
+
+Packet capture within one tenant cannot observe traffic belonging to
+another.
+
+Structural containment is the foundation upon which all other domains
+depend.
+
+Appendix B – Transport: Encryption Without Trust Expansion B.1 The
+Conflation Problem
+
+Historically, enterprises equated secure tunnels with secure exposure.
+An IPsec tunnel or VPN connection was treated as sufficient proof of
+control. In practice, tunnels become durable routing conduits. Over
+time:
+
+Additional routes are advertised.
+
+Additional firewall exceptions are granted.
+
+Scope drifts incrementally.
+
+Encryption protects data in transit. It does not constrain reachability.
+
+When transport and authorization are conflated, scope expands without
+architectural review.
+
+B.2 Transport as a Subordinate Capability
+
+In the governed exposure model:
+
+Transport is bound to Tenant context.
+
+Route advertisement is constrained to declared service endpoints.
+
+Transport establishment does not automatically populate routing tables.
+
+Tunnel teardown removes adjacency completely.
+
+The invariant is:
+
+Transport enables communication but does not define what is reachable.
+
+Authorization is defined exclusively by mediation constructs.
+
+B.3 Failure Modes Prevented
+
+By decoupling transport from scope:
+
+Unauthorized route expansion is prevented.
+
+Encryption cannot silently expand adjacency.
+
+Tunnel reuse across tenants is disallowed.
+
+Residual routing state cannot persist after teardown.
+
+B.4 Validation Criteria
+
+An implementation satisfies transport discipline if:
+
+Establishing transport alone does not produce end-to-end reachability.
+
+Declared endpoints are enforced at routing boundaries.
+
+Removal of transport eliminates adjacency deterministically.
+
+Route advertisements are filtered to allow-listed prefixes.
+
+Transport is necessary infrastructure. It must never define trust.
+
+Appendix C – Mediation and Identity: From Address Reachability to
+Capability Control C.1 Network Adjacency as a Coarse Control Model
+
+IP-based reachability is inherently broad. Once a subnet is reachable,
+every host within it becomes a potential interaction surface unless
+filtered at higher layers.
+
+This model fails under:
+
+Lateral movement scenarios.
+
+Application sprawl within internal networks.
+
+Vendor compromise events.
+
+Reachability is not capability.
+
+C.2 Mediation as the Enforcement Core
+
+All third-party interaction must traverse mediation constructs that:
+
+Terminate sessions or proxy connections.
+
+Enforce explicit allow-lists.
+
+Constrain protocol semantics.
+
+Restrict directionality.
+
+Mediation replaces direct routing with capability enforcement.
+
+The invariant:
+
+External actors may access only declared capabilities, not network
+segments.
+
+C.3 Identity Binding
+
+Where protocols allow, identity must be cryptographically verified and
+bound to the Tenant context.
+
+Identity enforcement ensures:
+
+Actor-level accountability.
+
+Revocation capability independent of network topology.
+
+Traceability aligned to business ownership.
+
+Without identity binding, exposure remains tied to location rather than
+subject.
+
+C.4 Failure Modes Prevented
+
+Lateral exploration within internal subnets.
+
+Credential replay across tenants.
+
+Implicit trust based solely on source IP.
+
+Vendor compromise leading to unrestricted reach.
+
+C.5 Validation Criteria
+
+An implementation satisfies mediation and identity invariants if:
+
+Direct routed access to internal subnets is impossible.
+
+All permitted flows traverse enforcement constructs.
+
+Identity validation failures result in denial.
+
+Audit logs associate identity with capability invocation.
+
+Mediation is the core of exposure control.
+
+Appendix D – Deterministic Visibility and Inspection Architecture D.1
+The Problem With Perimeter Inspection
+
+Perimeter inspection centralizes visibility but lacks context. It sees
+transport flows, not mediated capabilities. Distributed logging lacks
+consistency and correlation.
+
+Inspection without structural attachment points produces blind spots.
+
+D.2 Deterministic Inspection Points
+
+Inspection must occur at defined locations within Tenant boundaries.
+These points must:
+
+Mirror traffic without altering routing semantics.
+
+Log mediation decisions.
+
+Preserve isolation boundaries.
+
+Support export to enterprise analysis systems.
+
+The invariant:
+
+Visibility must not alter exposure semantics.
+
+D.3 Failure Modes Prevented
+
+Undetected lateral movement within tenant scope.
+
+Inspection bypass via alternate routes.
+
+Loss of audit trace due to distributed logging inconsistencies.
+
+D.4 Validation Criteria
+
+An implementation satisfies visibility invariants if:
+
+Inspection can be enabled per Tenant without topology redesign.
+
+Logging reflects mediation and identity outcomes.
+
+Mirrored traffic cannot escape containment domains.
+
+Disabling inspection does not alter routing behavior.
+
+Inspection strengthens assurance without expanding exposure.
+
+Appendix E – Lifecycle Enforcement and Reversibility E.1 Accumulation as
+the Historical Failure Mode
+
+Provisioning is engineered. Decommissioning is avoided. Over years,
+exposure domains persist without active justification.
+
+Residual connectivity becomes latent risk.
+
+E.2 Reversibility as Structural Discipline
+
+The architecture must enforce:
+
+Idempotent provisioning from authoritative state.
+
+Deterministic teardown removing all constructs.
+
+Suspension capability without partial dismantling.
+
+Renewal requiring explicit reauthorization.
+
+The invariant:
+
+Exposure persists only while declared.
+
+E.3 Failure Modes Prevented
+
+Orphaned tunnels.
+
+Residual firewall rules.
+
+Undocumented route propagation.
+
+Persistent trust after business termination.
+
+E.4 Validation Criteria
+
+An implementation satisfies lifecycle invariants if:
+
+Complete removal of a Tenant eliminates all routing and mediation
+constructs.
+
+Re-creation produces identical deterministic state.
+
+Audit logs reflect lifecycle transitions.
+
+Expiration without renewal results in enforced suspension.
+
+Reversibility prevents systemic entropy.
+
+Appendix F – Extensibility Without Erosion F.1 The Extension Risk
+
+New protocols, inspection modules, and mediation types will be
+introduced over time. Without guardrails, these additions can bypass
+containment layers.
+
+F.2 Guardrail-Enforced Extension Model
+
+Extensions must:
+
+Integrate through Tenant lifecycle hooks.
+
+Inherit isolation and identity semantics.
+
+Respect routing containment.
+
+Avoid bypassing mediation constructs.
+
+The invariant:
+
+No extension may operate outside Tenant structural context.
+
+F.3 Validation Criteria
+
+Adding an extension cannot create new adjacency outside declared scope.
+
+Removal of extension restores baseline state.
+
+Extensions cannot modify global routing contexts.
+
+Extensibility must preserve invariants.
+
+Appendix G – Administrative Separation and Operational Sustainability
+G.1 Control Plane Segregation
+
+Administrative and orchestration planes must be isolated from Tenant
+data planes. Tenant compromise must not enable platform compromise.
+
+G.2 Capacity Governance
+
+Resource monitoring must inform Tenant placement. Oversubscription must
+not degrade containment guarantees.
+
+The invariant:
+
+Governance enforcement must remain stable under scale.
+
+G.3 Validation Criteria
+
+Administrative interfaces are unreachable from Tenant domains.
+
+Resource thresholds prevent uncontrolled Tenant instantiation.
+
+Control-plane failure does not collapse data-plane isolation.
+
+Operational stability is part of exposure governance.

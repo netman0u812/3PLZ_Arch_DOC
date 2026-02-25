@@ -1,0 +1,47 @@
+Appendix A
+Network Enforcement: Governing Adjacency
+
+The body described network enforcement as governing topology rather than meaning. Here we make that precise.
+
+A network is a forwarding substrate. Its primary function is to move packets from one address to another. It does not inherently interpret content. It evaluates headers. It routes based on reachability. It maintains state to optimize flow handling.
+
+Firewalls and next-generation firewalls extend this substrate by inserting policy into forwarding decisions. They evaluate:
+
+Source and destination address
+
+Port and protocol
+
+Session state
+
+Application signatures (where identifiable)
+
+Decryption capabilities (where deployed)
+
+Even in advanced implementations with TLS decryption and heuristic inspection, the firewall operates as a pattern recognizer. It can infer protocol misuse. It can identify known exploit signatures. It can block anomalous behavior relative to expected protocol norms.
+
+What it cannot do—unless explicitly instrumented—is interpret business intent.
+
+If an application permits a data extraction function over HTTPS, and that function is invoked legitimately through an authenticated session, the firewall sees a permitted flow carrying valid protocol semantics.
+
+This is not a defect.
+
+It is a boundary.
+
+Network enforcement is excellent at:
+
+Restricting reachability
+
+Segmenting trust domains
+
+Constraining lateral movement
+
+Enforcing coarse-grained policy
+
+Its failure mode emerges when semantic risk exists within permitted flows.
+
+No amount of subnet segmentation resolves business-logic abuse.
+
+Therefore:
+
+Network enforcement is necessary infrastructure.
+It is insufficient semantic governance.

@@ -1,0 +1,80 @@
+Appendix C Security Paradigm 3 – Identity-Bound Authorization C.1
+Conceptual Foundation
+
+Location-based trust is fragile.
+
+IP addresses represent network position, not actor identity.
+
+In distributed ecosystems, identity must anchor trust.
+
+Authorization decisions must bind to authenticated subjects, not merely
+source networks.
+
+C.2 Failure Analysis of Legacy Models
+
+Location-based authorization fails when:
+
+IPs are reused.
+
+Vendors share infrastructure.
+
+NAT obscures origin.
+
+Credentials are reused across contexts.
+
+VPN presence implies blanket trust.
+
+IP address ≠ identity.
+
+C.3 Structural Requirements
+
+Identity-bound authorization requires:
+
+Cryptographic identity validation.
+
+Tenant-scoped trust anchors.
+
+Identity-to-capability mapping.
+
+Revocation independent of routing changes.
+
+C.4 Invariants
+
+Invariant C1: Access must be denied in the absence of validated
+identity.
+
+Invariant C2: Identity scope must be limited to the Tenant context.
+
+Invariant C3: Identity revocation must not require topology change.
+
+C.5 Implementation Characteristics
+
+mTLS enforcement
+
+Certificate-based authentication
+
+Per-tenant CAs
+
+Identity binding at mediation layer
+
+Identity-aware logging
+
+C.6 Validation Criteria
+
+An implementation satisfies Identity-Bound Authorization if:
+
+Identity validation failures block access even when transport exists.
+
+Identity context is tenant-scoped.
+
+Revocation prevents further capability access immediately.
+
+Audit logs bind subject identity to capability invocation.
+
+C.7 RC1 Validation
+
+RC1 implemented per-tenant mTLS enforcement and identity validation at
+mediation layers.
+
+This proved identity can be tenant-scoped and bound to capability
+access.
